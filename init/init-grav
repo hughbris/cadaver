@@ -1,0 +1,70 @@
+#!/bin/sh
+echo "init/init-grav script starting .."
+
+# Setup Grav
+
+cd /var/www/grav-master
+
+if [[ ! -e /var/www/grav/backup/* && ! -e /var/www/grav/backup/.gitkeep ]]; then
+  echo "Fresh install, moving backup .."
+  mv /var/www/grav-master/backup/.gitkeep /var/www/grav/backup/
+  # TODO cleanup/rmdir here??
+fi
+
+if [[ ! -e /var/www/grav/logs/* && ! -e /var/www/grav/logs/.gitkeep ]]; then
+  echo "Fresh install, moving logs .."
+  mv /var/www/grav-master/logs/.gitkeep /var/www/grav/logs/
+  # TODO cleanup/rmdir here??
+fi
+
+if [[ ! -e /var/www/grav/user/config/site.yaml ]]; then
+  echo "Fresh install, moving user directories .."
+  mkdir /var/www/grav/user
+  mv /var/www/grav-master/user/* /var/www/grav/user/
+  # TODO cleanup/rmdir here??
+fi
+
+echo "Moving Grav core .."
+find ./* -type d \( ! -name user \) \( ! -name backup \) \( ! -name logs \) -maxdepth 0 -exec mv '{}' /var/www/grav/ \; 
+find ./ -type d -name ".?*" -maxdepth 1 -exec mv '{}' /var/www/grav/ \; # because above match expression does not include hidden dirs, .github etc
+find . -type f -maxdepth 1 -exec mv {} /var/www/grav/ \;
+
+# TODO
+# check for supported GRAV_MULTISITE setting
+# echo "Checking for multisite environment .."
+# if [[ ! -z "${GRAV_MULTISITE}" && "$GRAV_MULTISITE" == "subdirectory" ]]; then
+#   echo "Copying multisite setup.php .."
+#   cp /tmp/env/setup_subdirectory.php /var/www/grav/setup.php
+#   mkdir -p /var/www/grav/user/sites
+# fi
+
+# Set Permissions, based on https://learn.getgrav.org/17/troubleshooting/permissions#different-accounts-fix-permissions-manually
+# NB: using find's -exec flag syntax makes serving fail for some reason
+cd /var/www/grav
+chown -R www-user:www-user .
+find . -type f | xargs chmod 664
+find ./bin -type f | xargs chmod 775
+find . -type d | xargs chmod 775
+find . -type d | xargs chmod +s
+umask 0002
+
+# Clean up
+echo "Cleaning up working files .."
+rm -Rf /var/www/grav-master
+# rm -rf /tmp/env
+
+# set and start cron
+GRAV_SCHEDULER=${GRAV_SCHEDULER:-false}
+# there are a few reasons you might not want the scheduler on:
+#   - not needed for any custom jobs in a dev/test environment,
+#   - it's not reliable in a container (so it's been said, this is also why this setting defaults to false currently),
+#   - you want to run cron from outside the container (on host or dedicated container, as is apparently best practice).
+if [[ $GRAV_SCHEDULER == "true" ]]; then
+  echo "Adding grav scheduler to caddy user's crontab .."
+  touch /var/spool/cron/crontabs/www-user && chown www-user /var/spool/cron/crontabs/www-user
+  (crontab -l; echo "* * * * * cd /var/www/grav;bin/grav scheduler 1>> /dev/null 2>&1") | crontab -u www-user - && \
+    crond -l 0 -L /var/log/cron.log
+fi
+
+echo "Starting caddy .."
+/bin/parent caddy --conf /etc/Caddyfile --log stdout --agree=$ACME_AGREE # TODO: check $ACME_AGREE is being used
