@@ -48,10 +48,17 @@ find . -type d | xargs chmod 775
 find . -type d | xargs chmod +s
 umask 0002
 
+# Copy robots.txt file with disallow everything directive if set
+ROBOTS_DISALLOW=${ROBOTS_DISALLOW:-false}
+if [[ $ROBOTS_DISALLOW == "true" ]]; then
+  echo "Copying discouraging robots.txt .."
+  cp -f /tmp/extras/robots.disallow.txt /var/www/grav/robots.txt
+fi
+
 # Clean up
 echo "Cleaning up working files .."
 rm -Rf /var/www/grav-master
-# rm -rf /tmp/env
+rm -Rf /tmp/extras
 
 # set and start cron
 GRAV_SCHEDULER=${GRAV_SCHEDULER:-false}

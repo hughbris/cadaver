@@ -14,7 +14,9 @@ RUN bin/grav install
 EXPOSE 80 443 2015
 
 COPY Caddyfile /etc/Caddyfile
-COPY init/* /grav/
+RUN mkdir /tmp/extras
+COPY extras /tmp/extras/
+COPY init /grav/
 
 WORKDIR /var/www/grav
 ENTRYPOINT ["/bin/sh", "/grav/init-grav"]
