@@ -4,14 +4,24 @@ Run Grav CMS under Caddy webserver in a docker container.
 
 ## Usage
 
-### Building the docker image
+### Sourcing the docker image
 
-This image is not currently hosted on Dockerhub (since I dislike it and also someone squatted on my username :/) or other repos, so you need to build the image locally.
+This image is currently available from Github's container repository only. It's not hosted on Dockerhub, because I dislike it and also because someone squatted on my username :/
 
-In the repo directory, I use this command to build my image. The image name parameter given after `-t` is not fixed since it's not official, so go ahead and use whatever image name you prefer.
+Pull or use the image from its canonical URL:
 
 ```sh
-$ docker build -t hughbris/docker-grav-caddy .
+$ docker pull ghcr.io/hughbris/grav-daddy
+```
+
+### Building the docker image
+
+If you need to build the image locally, maybe for your own special flavour, first clone this repo.
+
+In the repo directory, use this command to build your image. The image name parameter given after `-t` is not fixed since it's not official, so go ahead and use whatever image name you prefer.
+
+```sh
+$ docker build -t local/my-docker-grav-caddy .
 ```
 
 ### Using docker-compose
@@ -24,7 +34,7 @@ version: "3.3"
 services:
 
    grav:
-        image: hughbris/docker-grav-caddy
+        image: ghcr.io/hughbris/grav-daddy
         container_name: grav-caddy
         domainname: local
         hostname: grav-caddy
