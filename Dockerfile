@@ -18,7 +18,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=wizbii/caddy /caddy /usr/local/bin/caddy
 
 RUN apk add --no-cache autoconf openssl-dev g++ make pcre-dev icu-dev zlib-dev libzip-dev git
-RUN install-php-extensions gd bcmath intl opcache zip sockets
+RUN install-php-extensions gd bcmath intl opcache zip sockets exif
 RUN apk del --purge autoconf g++ make
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
