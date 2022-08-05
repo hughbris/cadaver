@@ -42,7 +42,7 @@ find . -type f -maxdepth 1 -exec mv {} $GRAV_ROOT/ \;
 # NB: using find's -exec flag syntax makes serving fail for some reason
 cd $GRAV_ROOT
 chown -R www-user:www-user .
-find . -type f | xargs chmod 664
+find . -type f -not -path "./user/.git/*"| xargs chmod 664
 find ./bin -type f | xargs chmod 775
 find . -type d | xargs chmod 775
 find . -type d | xargs chmod +s
