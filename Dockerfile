@@ -8,6 +8,7 @@ ARG PUID="1000"
 ARG PGID="1000"
 
 # Let's Encrypt Agreement
+# FIXME: hmm, do I need this?
 ENV ACME_AGREE="false"
 
 RUN apk update && \
@@ -19,6 +20,7 @@ COPY --from=wizbii/caddy /caddy /usr/local/bin/caddy
 
 RUN apk add --no-cache autoconf openssl-dev g++ make pcre-dev icu-dev zlib-dev libzip-dev git
 RUN install-php-extensions gd bcmath intl opcache zip sockets exif
+# TODO: look at list at https://learn.getgrav.org/17/basics/requirements#php-requirements including optional modules to improve performance
 RUN apk del --purge autoconf g++ make
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
