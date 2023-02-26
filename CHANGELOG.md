@@ -9,3 +9,12 @@
 
 1. [](#improved)
     * add exif library PHP extension, needed for some Grav image manipulation functions
+
+# v0.2.2
+## 05-08-2022
+
+# v0.2.3
+## 26-02-2023
+
+1. [](#bugfix)
+    * leave .git directory alone when setting Grav file permissions
