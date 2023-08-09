@@ -24,6 +24,12 @@ In the repo directory, use this command to build your image. The image name para
 $ docker build -t local/my-docker-grav-caddy .
 ```
 
+You can change the *PHP base image* from its default now, using the build-time argument `base_image`, e.g.
+
+```sh
+$ docker build --build-arg base_image=php:8.2-fpm-alpine -t local/my-docker-grav-caddy:8.2 .
+```
+
 ### Using docker-compose
 
 My compose file looks something like this, tweak as needed:
