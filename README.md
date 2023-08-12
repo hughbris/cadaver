@@ -18,11 +18,19 @@ $ docker pull ghcr.io/hughbris/grav-daddy
 
 If you need to build the image locally, maybe for your own special flavour, first clone this repo.
 
-In the repo directory, use this command to build your image. The image name parameter given after `-t` is not fixed since it's not official, so go ahead and use whatever image name you prefer.
+In the repo directory, use this command to build your image. The image name parameter given after `-t` is not fixed since it's not official, so go ahead and use whatever target image name you prefer.
 
 ```sh
 $ docker build -t local/my-docker-grav-caddy .
 ```
+There's a good chance that you don't want cached copies of the layers making up the target image you are building. To override `docker build`'s default behaviour of caching image layers, use this intuitive incantation:
+
+```sh
+$ docker build --no-cache --pull -t local/my-docker-grav-caddy .
+```
+(thanks to user @m-dk on stackoverflow.com [for guidance](https://stackoverflow.com/a/58115741); another obscure DX delivered by dockercorp engineers)
+
+> This will use more bandwidth and may *not* be what you want this time.
 
 You can change the *PHP base image* from its default now, using the build-time argument `base_image`, e.g.
 
