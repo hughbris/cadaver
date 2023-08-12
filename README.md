@@ -66,7 +66,7 @@ services:
             - PGID=1000
             - ACME_AGREE=true
             # - GRAV_SCHEDULER=true # defaults to false currently
-            # - ROBOTS_DISALLOW=true # defaults to false, set true for staging envornments etc, see extras/robots.disallow.txt for more discussion
+            # - ROBOTS_DISALLOW=true # defaults to false, set true for staging environments etc, see extras/robots.disallow.txt for more discussion; set to "AI_BOTS" to block only AI content harvesters, see extras/robots.ai-bots.txt for details
             # - GRAV_MULTISITE=dir # yet to be implemented
 ```
 

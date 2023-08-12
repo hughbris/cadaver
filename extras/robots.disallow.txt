@@ -1,6 +1,6 @@
 # This file will advise web crawlers not to index your site. It's discretionary but observed by major search engines, see https://en.wikipedia.org/wiki/Robots_exclusion_standard
 # Deploy this to any internet accessible environments (e.g. staging) where you have no other protection in place (e.g. HTTP Basic authentication).
-# Pass the environment variable ROBOTS_DISALLOW to deploy it on your container.
+# Pass the environment variable ROBOTS_DISALLOW=true to deploy it on your container.
 # Another solution is provided here: https://learn.getgrav.org/17/cookbook/general-recipes#display-different-robots-txt-contents-for-different-environments
 # TODO: move this into the README
 User-agent: *
