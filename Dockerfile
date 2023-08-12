@@ -5,8 +5,8 @@ FROM $base_image
 LABEL org.opencontainers.image.source=https://github.com/hughbris/grav-daddy
 
 # PHP www-user UID and GID
-ARG PUID="1000"
-ARG PGID="1000"
+ENV PUID="1000"
+ENV PGID="1000"
 
 # Let's Encrypt Agreement
 # FIXME: hmm, do I need this?
