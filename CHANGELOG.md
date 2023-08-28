@@ -18,3 +18,17 @@
 
 1. [](#bugfix)
     * leave .git directory alone when setting Grav file permissions
+
+# v0.2.4
+## 28-08-2023
+
+1. [](#bugfix)
+    * handle filenames with spaces when setting Grav file permissions ([#10](https://github.com/hughbris/grav-daddy/issues/10))
+2. [](#new)
+    * add and document `$base_image` build parameter, makes managing multiple base images and swapping in custom ones much simpler (4833540)
+3. [](#new)
+    * support new $ROBOTS_DISALLOW value to ward off only AI bots via published `robots.txt` ([#11](https://github.com/hughbris/grav-daddy/issues/11))
+4. [](#bugfix)
+    * runtime environment variables PUID and GUID should now work as expected (fb4a235)
+5. [](#improved)
+    * rename and redirect project ([#5](https://github.com/hughbris/grav-daddy/issues/5))
