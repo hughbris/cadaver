@@ -1,4 +1,4 @@
-# Grav daddy
+# Cadaver
 
 Run Grav CMS under Caddy webserver in a docker container.
 
@@ -11,7 +11,7 @@ This image is currently available from Github's container repository only. It's 
 Pull or use the image from its canonical URL:
 
 ```sh
-$ docker pull ghcr.io/hughbris/grav-daddy
+$ docker pull ghcr.io/hughbris/cadaver
 ```
 
 ### Building the docker image
@@ -48,7 +48,7 @@ version: "3.3"
 services:
 
    grav:
-        image: ghcr.io/hughbris/grav-daddy
+        image: ghcr.io/hughbris/cadaver
         container_name: grav-caddy
         domainname: local
         hostname: grav-caddy
