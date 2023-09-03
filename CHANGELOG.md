@@ -32,3 +32,9 @@
     * runtime environment variables PUID and GUID should now work as expected (fb4a235)
 5. [](#improved)
     * rename and redirect project ([#5](https://github.com/hughbris/grav-daddy/issues/5))
+
+# v0.2.4.1
+## 03-09-2023
+
+1. [](#improved)
+    * default `$base_image` value is `php:8.2-fpm-alpine` to align with [changes to default published images](https://github.com/hughbris/cadaver/discussions/8)

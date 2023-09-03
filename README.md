@@ -35,8 +35,11 @@ $ docker build --no-cache --pull -t local/my-docker-grav-caddy .
 You can change the *PHP base image* from its default now, using the build-time argument `base_image`, e.g.
 
 ```sh
-$ docker build --build-arg base_image=php:8.2-fpm-alpine -t local/my-docker-grav-caddy:8.2 .
+$ docker build --build-arg base_image=php:7.4-fpm-alpine -t local/my-docker-grav-caddy:php7.4 .
 ```
+
+> [!NOTE]
+> As of [`0.2.4.1`](https://github.com/hughbris/cadaver/tree/v0.2.4.1), the default `base_image` value is `php:8.2-fpm-alpine`.
 
 ### Using docker-compose
 
