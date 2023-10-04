@@ -3,4 +3,5 @@
 # Another solution is provided here: https://learn.getgrav.org/17/cookbook/general-recipes#display-different-robots-txt-contents-for-different-environments
 # TODO: move this into the README
 User-agent: GPTBot
+User-agent: Google-Extended
 Disallow: /
