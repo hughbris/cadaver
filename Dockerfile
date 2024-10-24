@@ -2,6 +2,8 @@ ARG base_image=php:8.3-fpm-alpine
 FROM $base_image
 # credit for important parts of this to https://gist.github.com/Baldinof/8af17f09c7a57aa468e1b6c66d4272a3
 
+ARG Grav_tag=master
+
 LABEL org.opencontainers.image.source=https://github.com/hughbris/cadaver
 LABEL maintainer="Hugh Barnes"
 
@@ -32,12 +34,10 @@ RUN addgroup -g ${PGID} www-user && \
   sed -i "s|^user = .*|user = www-user|g" "/usr/local/etc/php-fpm.d/www.conf" && \
   sed -i "s|^group = .*|group = www-user|g" "/usr/local/etc/php-fpm.d/www.conf"
 
-ADD https://github.com/getgrav/grav/archive/master.zip /grav/grav.zip
 WORKDIR /var/www
-RUN ["unzip", "/grav/grav.zip"]
+ADD https://github.com/getgrav/grav.git#${Grav_tag} ./grav-src
 
-WORKDIR /var/www/grav-master
-
+WORKDIR /var/www/grav-src
 RUN composer update
 RUN composer install --no-dev -o
 RUN bin/grav install

@@ -4,7 +4,7 @@ echo "init/init-grav script starting .."
 # Setup Grav
 
 export GRAV_ROOT=/var/www/grav # could be handy in runtime scripting
-GRAV_TEMP=/var/www/grav-master
+GRAV_TEMP=/var/www/grav-src
 
 cd $GRAV_TEMP
 
