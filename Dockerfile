@@ -19,7 +19,7 @@ RUN apk update && \
     apk add --no-cache tzdata
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
 COPY --from=wizbii/caddy /caddy /usr/local/bin/caddy
 
 RUN apk add --no-cache autoconf openssl-dev g++ make pcre-dev icu-dev zlib-dev libzip-dev git
