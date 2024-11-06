@@ -26,7 +26,7 @@ rewrite {
 }
 # deny access to specific files in the root folder
 rewrite {
-    r       /(LICENSE\.txt|composer\.lock|composer\.json|nginx\.conf|web\.config|htaccess\.txt|\.htaccess)
+    r       /(README\.md|LICENSE\.txt|composer\.lock|composer\.json|nginx\.conf|web\.config|htaccess\.txt|\.htaccess)
     to      /403
 }
 
