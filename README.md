@@ -30,17 +30,33 @@ services:
    grav:
         image: ghcr.io/hughbris/cadaver
         container_name: grav-caddy
-        domainname: local
-        hostname: grav-caddy
+        domainname: localhost
+        hostname: cadavertest
         restart: unless-stopped
         ports:
-            - 127.0.0.1:2015:2015
+            - target: 2015
+              host_ip: 127.0.0.1
+              published: 666
+            # - 127.0.0.1:666:2015 if you prefer stupid shorthands
         volumes:
-            - /var/data/containers/caddytest/backup:/var/www/grav/backup
-            - /var/data/containers/caddytest/logs:/var/www/grav/logs
-            - /var/data/containers/caddytest/user:/var/www/grav/user
-            - /etc/timezone:/etc/timezone:ro
-            - /etc/localtime:/etc/localtime:ro
+            # there's a traditional short, confusing shorthand for volumes too
+            - type: bind
+              source: /var/data/containers/cadavertest/backup
+              target: /var/www/grav/backup
+            - type: bind
+              source: /var/data/containers/cadavertest/logs
+              target: /var/www/grav/logs
+            - type: bind
+              source: /var/data/containers/cadavertest/user
+              target: /var/www/grav/user
+            - type: bind
+              source: /etc/timezone
+              target: /etc/timezone
+              read_only: true
+            - type: bind
+              source: /etc/localtime
+              target: /etc/localtime
+              read_only: true
         environment:
             - PUID=1000
             - PGID=1000
@@ -49,6 +65,8 @@ services:
             # - ROBOTS_DISALLOW=true # defaults to false, set true for staging environments etc, see extras/robots.disallow.txt for more discussion; set to "AI_BOTS" to block only AI content harvesters, see extras/robots.ai-bots.txt for details
             # - GRAV_MULTISITE=dir # yet to be implemented
 ```
+
+This serves the site at http://127.0.0.1:666. The first test I usually perform is `curl -I 127.0.0.1:666` and look for `200 OK`.
 
 ## Caveats
 
