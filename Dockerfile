@@ -3,6 +3,7 @@ FROM $base_image
 # credit for important parts of this to https://gist.github.com/Baldinof/8af17f09c7a57aa468e1b6c66d4272a3
 
 ARG Grav_tag=master
+ARG composer_args=--no-dev
 
 LABEL org.opencontainers.image.source=https://github.com/hughbris/cadaver
 LABEL maintainer="Hugh Barnes"
@@ -38,8 +39,7 @@ WORKDIR /var/www
 ADD https://github.com/getgrav/grav.git#${Grav_tag} ./grav-src
 
 WORKDIR /var/www/grav-src
-RUN composer update
-RUN composer install --no-dev -o
+RUN composer install $composer_args -o
 RUN bin/grav install
 
 EXPOSE 80 443 2015
