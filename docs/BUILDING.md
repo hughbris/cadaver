@@ -26,6 +26,7 @@ $ docker build --no-cache --pull -t local/my-organic-cadaver .
 | `base_image` | _php:8.3-fpm-alpine_ | [PHP base image](#php-base-image) |
 | `Grav_tag` | _master_ | [Grav release or branch](#grav-release-or-branch) |
 | `composer_args` | _--no-dev_ | [Composer arguments](#composer-arguments) |
+| `php_ini` | _production_ | [php.ini preset profile](#phpini-preset-profile) |
 
 ### PHP base image
 
@@ -70,3 +71,15 @@ $ docker build --build-arg composer_args= -t local/my-custom-cadaver:dev .
 ```sh
 $ docker build --build-arg composer_args=--dev -t local/my-custom-cadaver:dev .
 ```
+
+### `php.ini` preset profile
+
+PHP often comes bundled with a couple of bogstandard `php.ini` files to get you started that serve pretty well. There should be at least one for _development_ (`php.ini-development`) and one for _production_ (`php.ini-production`) (the default).
+
+If you want to use the _development_ ini file, build with the `php_ini` argument:
+
+```sh
+$ docker build --build-arg php_ini=development -t local/my-playground-cadaver:dev .
+```
+
+> I expect if you want your own custom `php.ini`, you could always bind mount `/usr/local/etc/php/php.ini` to your handcrafted ini file on your docker host.

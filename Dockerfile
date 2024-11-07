@@ -4,6 +4,7 @@ FROM $base_image
 
 ARG Grav_tag=master
 ARG composer_args=--no-dev
+ARG php_ini=production
 
 LABEL org.opencontainers.image.source=https://github.com/hughbris/cadaver
 LABEL maintainer="Hugh Barnes"
@@ -27,7 +28,7 @@ RUN apk add --no-cache autoconf openssl-dev g++ make pcre-dev icu-dev zlib-dev l
 RUN install-php-extensions gd bcmath intl opcache zip sockets exif
 # TODO: look at list at https://learn.getgrav.org/17/basics/requirements#php-requirements including optional modules to improve performance
 RUN apk del --purge autoconf g++ make
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+RUN ln -s "php.ini-${php_ini}" "$PHP_INI_DIR/php.ini"
 
 # Add a PHP www-user instead of nobody
 RUN <<EOT
