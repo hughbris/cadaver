@@ -1,3 +1,15 @@
+# v0.2.x
+## xx-xx-202x
+
+1. [](#improved)
+    * change default base image PHP from 8.2 to 8.3; potentially process-breaking (65d6266)
+    * don't allow Grav to serve Grav's README.md file at /README.md (99d57b1)
+    * docs improvements (4d140e4 + 4ce96d7)
+2. [](#new)
+    * add support for Google AI bot disallowing robots directive (bfe5f55)
+    * add maintainer LABEL to dockerfile (3fa6d0a)
+    * add `composer_args` to allow setting composer flags (f0002c7)
+
 # v0.2.4.1
 ## 03-09-2023
 
