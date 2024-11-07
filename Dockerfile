@@ -30,10 +30,12 @@ RUN apk del --purge autoconf g++ make
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 # Add a PHP www-user instead of nobody
-RUN addgroup -g ${PGID} www-user && \
-  adduser -D -H -u ${PUID} -G www-user www-user && \
-  sed -i "s|^user = .*|user = www-user|g" "/usr/local/etc/php-fpm.d/www.conf" && \
+RUN <<EOT
+  addgroup -g ${PGID} www-user &&
+  adduser -D -H -u ${PUID} -G www-user www-user &&
+  sed -i "s|^user = .*|user = www-user|g" "/usr/local/etc/php-fpm.d/www.conf" &&
   sed -i "s|^group = .*|group = www-user|g" "/usr/local/etc/php-fpm.d/www.conf"
+EOT
 
 WORKDIR /var/www
 ADD https://github.com/getgrav/grav.git#${Grav_tag} ./grav-src
@@ -44,7 +46,7 @@ RUN bin/grav install
 
 EXPOSE 80 443 2015
 
-COPY Caddyfile /etc/Caddyfile
+COPY Caddyfile /etc/
 RUN mkdir /tmp/extras
 COPY extras /tmp/extras/
 COPY init /grav/
