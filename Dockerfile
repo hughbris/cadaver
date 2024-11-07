@@ -24,7 +24,7 @@ COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr
 COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
 COPY --from=wizbii/caddy /caddy /usr/local/bin/caddy
 
-RUN apk add --no-cache autoconf openssl-dev g++ make pcre-dev icu-dev zlib-dev libzip-dev git
+RUN apk add --no-cache autoconf openssl-dev g++ make pcre-dev icu-dev git
 RUN install-php-extensions gd bcmath intl opcache zip sockets exif
 # TODO: look at list at https://learn.getgrav.org/17/basics/requirements#php-requirements including optional modules to improve performance
 RUN apk del --purge autoconf g++ make
