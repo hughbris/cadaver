@@ -23,20 +23,33 @@ $ docker build --no-cache --pull -t local/my-organic-cadaver .
 
 | Option | Default | Function |
 :------- | :------ | :-------
-| `base_image` | _php:8.3-fpm-alpine_ | [PHP base image](#php-base-image) |
+| `php_ver` | _8.3_ | [PHP version](#php-version) |
+| `base_image` | _php:`php_ver`-fpm-alpine_ | [PHP base image](#php-base-image) |
 | `Grav_tag` | _master_ | [Grav release or branch](#grav-release-or-branch) |
 | `composer_args` | _--no-dev_ | [Composer arguments](#composer-arguments) |
 | `php_ini` | _production_ | [php.ini preset profile](#phpini-preset-profile) |
 
-### PHP base image
+### PHP version
 
-You can change the *PHP base image* from its default now, using the build-time argument `base_image`, e.g.
+This is a simple shorthand to change the PHP image. Setting this will assume you are simply using the official PHP-FPM Alpine Linux base docker image.
 
 ```sh
-$ docker build --build-arg base_image=php:7.4-fpm-alpine -t local/my-special-cadaver:php7.4 .
+$ docker build --build-arg --build-arg php_ver=7.4 -t local/my-old-cadaver:php7.4 .
 ```
 
-> As of [`65d6266`](https://github.com/hughbris/cadaver/commit/65d6266), the default `base_image` value is _php:8.3-fpm-alpine_.
+> This setting is ignored if you also pass the build argument `base_image`. Use that instead if you want to use a community image.
+
+### PHP base image
+
+You can change the *PHP base image* using the build-time argument `base_image`, e.g.
+
+```sh
+$ docker build --build-arg base_image=php:7.4-fpm-bullseye -t local/my-special-cadaver:php7.4 .
+```
+
+> Setting `base_image` overrides any `php_ver` value you pass into your build.
+
+> The default `base_image` value is derived from the value of `php_ver`, which has a default value of _8.3_. The default _8.3_ will effectively set `base_image` to _php:8.3-fpm-alpine_.
 
 ### Grav release or branch
 
