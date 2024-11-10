@@ -51,9 +51,9 @@ EXPOSE 80 443 2015
 COPY Caddyfile /etc/
 RUN mkdir /tmp/extras
 COPY extras /tmp/extras/
-COPY init /grav/
+COPY scripts /grav/
 
 RUN caddy -validate
 
 WORKDIR /var/www/grav
-ENTRYPOINT ["/bin/sh", "/grav/init-grav"]
+ENTRYPOINT ["/bin/sh", "/grav/init.sh"]
