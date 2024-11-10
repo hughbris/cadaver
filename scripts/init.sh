@@ -1,5 +1,7 @@
 #!/bin/sh
-echo "init/init-grav script starting .."
+source "/grav/helpers.sh"
+
+LogInfo "Init script starting"
 
 # Setup Grav
 
@@ -9,22 +11,22 @@ GRAV_TEMP=/var/www/grav-src
 cd $GRAV_TEMP
 
 if [[ ! -e $GRAV_ROOT/backup/* && ! -e $GRAV_ROOT/backup/.gitkeep ]]; then
-  echo "Fresh install, moving backup .."
+  LogAction "Fresh install, moving backup"
   mv $GRAV_TEMP/backup $GRAV_ROOT/
 fi
 
 if [[ ! -e $GRAV_ROOT/logs/* && ! -e $GRAV_ROOT/logs/.gitkeep ]]; then
-  echo "Fresh install, moving logs .."
+  LogAction "Fresh install, moving logs"
   mv $GRAV_TEMP/logs $GRAV_ROOT/
 fi
 
 if [[ ! -e $GRAV_ROOT/user/config/site.yaml ]]; then
-  echo "Fresh install, moving user directories .."
+  LogAction "Fresh install, moving user directories"
   mkdir $GRAV_ROOT/user
   mv $GRAV_TEMP/user/* $GRAV_ROOT/user/
 fi
 
-echo "Moving Grav core .."
+LogAction "Moving Grav core"
 find ./* -type d \( ! -name user \) \( ! -name backup \) \( ! -name logs \) -maxdepth 0 -exec mv '{}' $GRAV_ROOT/ \;
 find ./ -type d -name ".?*" -maxdepth 1 -exec mv '{}' $GRAV_ROOT/ \; # because above match expression does not include hidden dirs, .github etc
 find . -type f -maxdepth 1 -exec mv {} $GRAV_ROOT/ \;
@@ -40,7 +42,7 @@ find . -type f -maxdepth 1 -exec mv {} $GRAV_ROOT/ \;
 
 # Set Permissions, based on https://learn.getgrav.org/17/troubleshooting/permissions#different-accounts-fix-permissions-manually
 # NB: using find's -exec flag syntax makes serving fail for some reason, probably a flavour thing
-echo "Setting permissions with chmod (+ chown, umask) .."
+LogAction "Setting permissions with chmod (+ chown, umask)"
 cd $GRAV_ROOT
 chown -R www-user:www-user .
 find . -type f ! -path "./user/.git/*" -print | tr '\n' '\0' | xargs -0 -n1 chmod 664 # see Issue #10
@@ -52,16 +54,16 @@ umask 0002
 # Copy robots.txt file with disallow everything directive if set
 ROBOTS_DISALLOW=${ROBOTS_DISALLOW:-"false"}
 if [[ $ROBOTS_DISALLOW == "AI_BOTS" ]]; then
-  echo "Discouraging AI bots only with robots.txt .."
+  LogAction "Discouraging AI bots only with robots.txt"
   cat $GRAV_ROOT/robots.txt >> /tmp/extras/robots.ai-bots.txt
   cp -f /tmp/extras/robots.ai-bots.txt $GRAV_ROOT/robots.txt
 elif [[ $ROBOTS_DISALLOW == "true" ]]; then
-  echo "Copying discouraging robots.txt .."
+  LogAction "Copying discouraging robots.txt"
   cp -f /tmp/extras/robots.disallow.txt $GRAV_ROOT/robots.txt
 fi
 
 # Clean up
-echo "Cleaning up working files .."
+LogAction "Cleaning up working files"
 rm -Rf $GRAV_TEMP
 rm -Rf /tmp/extras
 
@@ -72,11 +74,11 @@ GRAV_SCHEDULER=${GRAV_SCHEDULER:-false}
 #   - it's not reliable in a container (so it's been said, this is also why this setting defaults to false currently),
 #   - you want to run cron from outside the container (on host or dedicated container, as is apparently best practice).
 if [[ $GRAV_SCHEDULER == "true" ]]; then
-  echo "Adding grav scheduler to caddy user's crontab .."
+  LogAction "Adding grav scheduler to caddy user's crontab"
   touch /var/spool/cron/crontabs/www-user && chown www-user /var/spool/cron/crontabs/www-user
   (crontab -l; echo "* * * * * cd /var/www/grav;bin/grav scheduler 1>> /dev/null 2>&1") | crontab -u www-user - && \
     crond -l 0 -L /var/log/cron.log
 fi
 
-echo "Starting caddy .."
+LogAction "Starting caddy"
 /usr/local/bin/caddy --conf /etc/Caddyfile --log stdout --agree=$ACME_AGREE # TODO: check $ACME_AGREE is being used
