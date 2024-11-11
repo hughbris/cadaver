@@ -10,20 +10,32 @@ GRAV_TEMP=/var/www/grav-src
 
 cd $GRAV_TEMP
 
-if [[ ! -e $GRAV_ROOT/backup/* && ! -e $GRAV_ROOT/backup/.gitkeep ]]; then
+if [[ -e $GRAV_ROOT/backup/* || -e $GRAV_ROOT/backup/.gitkeep ]]; then
+  LogInfo "Using existing backup directory"
+else
   LogAction "Fresh install, moving backup"
-  mv $GRAV_TEMP/backup $GRAV_ROOT/
+  mv $GRAV_TEMP/backup $GRAV_ROOT/ \
+    && LogSuccess "Moved backup" \
+    || LogError "Could not move backup"
 fi
 
-if [[ ! -e $GRAV_ROOT/logs/* && ! -e $GRAV_ROOT/logs/.gitkeep ]]; then
+if [[ -e $GRAV_ROOT/logs/* || -e $GRAV_ROOT/logs/.gitkeep ]]; then
+  LogInfo "Using existing logs directory"
+else
   LogAction "Fresh install, moving logs"
-  mv $GRAV_TEMP/logs $GRAV_ROOT/
+  mv $GRAV_TEMP/logs $GRAV_ROOT/ \
+     && LogSuccess "Moved logs" \
+    || LogError "Could not move logs"
 fi
 
-if [[ ! -e $GRAV_ROOT/user/config/site.yaml ]]; then
+if [[ -e $GRAV_ROOT/user/config/site.yaml ]]; then
+  LogInfo "Using existing user directory"
+else
   LogAction "Fresh install, moving user directories"
   mkdir $GRAV_ROOT/user
-  mv $GRAV_TEMP/user/* $GRAV_ROOT/user/
+  mv $GRAV_TEMP/user/* $GRAV_ROOT/user/ \
+    && LogSuccess "Moved user directories" \
+    || LogError "Could not move all user directories"
 fi
 
 LogAction "Moving Grav core"
@@ -55,11 +67,13 @@ umask 0002
 ROBOTS_DISALLOW=${ROBOTS_DISALLOW:-"false"}
 if [[ $ROBOTS_DISALLOW == "AI_BOTS" ]]; then
   LogAction "Discouraging AI bots only with robots.txt"
-  cat $GRAV_ROOT/robots.txt >> /tmp/extras/robots.ai-bots.txt
-  cp -f /tmp/extras/robots.ai-bots.txt $GRAV_ROOT/robots.txt
+  cat $GRAV_ROOT/robots.txt >> /tmp/extras/robots.ai-bots.txt \
+    && cp -f /tmp/extras/robots.ai-bots.txt $GRAV_ROOT/robots.txt \
+    || LogError "Could not create custom robots.txt"
 elif [[ $ROBOTS_DISALLOW == "true" ]]; then
   LogAction "Copying discouraging robots.txt"
-  cp -f /tmp/extras/robots.disallow.txt $GRAV_ROOT/robots.txt
+  cp -f /tmp/extras/robots.disallow.txt $GRAV_ROOT/robots.txt \
+    || LogError "Could not create restrictive robots.txt"
 fi
 
 # Clean up
@@ -80,5 +94,6 @@ if [[ $GRAV_SCHEDULER == "true" ]]; then
     crond -l 0 -L /var/log/cron.log
 fi
 
+LogSuccess "Init steps completed"
 LogAction "Starting caddy"
 /usr/local/bin/caddy --conf /etc/Caddyfile --log stdout --agree=$ACME_AGREE # TODO: check $ACME_AGREE is being used
