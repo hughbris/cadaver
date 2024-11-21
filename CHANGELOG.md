@@ -1,5 +1,5 @@
-# v0.2.x
-## xx-xx-202x
+# v0.2.5
+## 21-11-2024
 
 1. [](#improved)
     * change default base image PHP from 8.2 to 8.3; potentially process-breaking (65d6266)
