@@ -1,3 +1,16 @@
+# v0.2.5.1
+## 21-11-2024
+
+1. [](#bugfix)
+    * admit mistake incorporating development commits accidentally released into 0.2.5
+
+2. [](#improved)
+    * rename init script and path (a90556f)
+    * logging
+
+3. [](#new)
+    * add shorthand build argument `php_ver` (a2ad3c5)
+
 # v0.2.5
 ## 21-11-2024
 
