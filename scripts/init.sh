@@ -57,10 +57,10 @@ find . -type f -maxdepth 1 -exec mv {} $GRAV_ROOT/ \;
 LogAction "Setting permissions with chmod (+ chown, umask)"
 cd $GRAV_ROOT
 find . -xdev -print0 | xargs -0 -n1 -r chown www-user:www-user
-find . -type f ! -path "./user/.git/*" -xdev -print | tr '\n' '\0' | xargs -0 -n1 chmod 664 # see Issue #10
-find ./bin -type f -xdev -print0 | tr '\n' '\0' | xargs -0 -n1 chmod 775
-find . -type d ! -path "./.git/*" -xdev -print | tr '\n' '\0' | xargs -0 -n1 chmod 775
-find . -type d ! -path "./.git/*" -xdev -print | tr '\n' '\0' | xargs -0 -n1 chmod +s
+find . -type f ! -path "./user/.git/*" -xdev -print0 | xargs -0 -n1 chmod 664
+find ./bin -type f -xdev -print0 | xargs -0 -n1 chmod 775
+find . -type d ! -path "./.git/*" -xdev -print0 | xargs -0 -n1 chmod 775
+find . -type d ! -path "./.git/*" -xdev -print0 | xargs -0 -n1 chmod +s
 umask 0002
 
 # Copy robots.txt file with disallow everything directive if set
