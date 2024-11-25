@@ -23,7 +23,7 @@ $ docker build --no-cache --pull -t local/my-organic-cadaver .
 
 | Option | Default | Function |
 :------- | :------ | :-------
-| `php_ver` | _8.3_ | [PHP version](#php-version) |
+| `php_ver` | _8.4_ | [PHP version](#php-version) |
 | `base_image` | _php:`php_ver`-fpm-alpine_ | [PHP base image](#php-base-image) |
 | `Grav_tag` | _master_ | [Grav release or branch](#grav-release-or-branch) |
 | `composer_args` | _--no-dev_ | [Composer arguments](#composer-arguments) |
@@ -49,7 +49,7 @@ $ docker build --build-arg base_image=php:7.4-fpm-bullseye -t local/my-special-c
 
 > Setting `base_image` overrides any `php_ver` value you pass into your build.
 
-> The default `base_image` value is derived from the value of `php_ver`, which has a default value of _8.3_. The default _8.3_ will effectively set `base_image` to _php:8.3-fpm-alpine_.
+> The default `base_image` value is derived from the value of `php_ver`, which has a default value of _8.4_. The default _8.4_ will effectively set `base_image` to _php:8.4-fpm-alpine_.
 
 ### Grav release or branch
 
