@@ -56,11 +56,12 @@ find . -type f -maxdepth 1 -exec mv {} $GRAV_ROOT/ \;
 # NB: using find's -exec flag syntax makes serving fail for some reason, probably a flavour thing
 LogAction "Setting permissions with chmod (+ chown, umask)"
 cd $GRAV_ROOT
-find . -xdev -print0 | xargs -0 -n1 -r chown www-user:www-user
-find . -type f ! -path "*/.git/*" -xdev -print0 | xargs -0 -n1 chmod 664
-find ./bin -type f -xdev -print0 | xargs -0 -n1 chmod 775
-find . -type d ! -path "*/.git" ! -path "*/.git/*" -xdev -print0 | xargs -0 -n1 chmod 775
-find . -type d ! -path "*/.git" ! -path "*/.git/*" -xdev -print0 | xargs -0 -n1 chmod +s
+
+find . $PERMISSIONS_GLOBAL -print0 | xargs -0 -n1 -r chown www-user:www-user
+find . -type f $PERMISSIONS_GLOBAL $PERMISSIONS_FILES -print0 | xargs -0 -n1 chmod 664
+find ./bin -type f $PERMISSIONS_GLOBAL -print0 | xargs -0 -n1 chmod 775
+find . -type d $PERMISSIONS_GLOBAL $PERMISSIONS_DIRS -print0 | xargs -0 -n1 chmod 775
+find . -type d $PERMISSIONS_GLOBAL $PERMISSIONS_DIRS -print0 | xargs -0 -n1 chmod +s
 umask 0002
 
 # Copy robots.txt file with disallow everything directive if set

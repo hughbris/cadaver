@@ -63,6 +63,14 @@ services:
             - ACME_AGREE=true
             # - GRAV_SCHEDULER=true # defaults to false currently
             # - ROBOTS_DISALLOW=true # defaults to false, set true for staging environments etc, see extras/robots.disallow.txt for more discussion; set to "AI_BOTS" to block only AI content harvesters, see extras/robots.ai-bots.txt for details
+
+            # ** PERMISSIONS_* variables all default to empty string **
+            # - PERMISSIONS_GLOBAL=-xdev # global find arguments for permission setting
+            # - PERMISSIONS_FILES='! -path "*/.git/*"' # find arguments for files permission setting
+            # - PERMISSIONS_DIRS='! -path "*/.git" ! -path "*/.git/*"' # find arguments for directories permission setting
+            # ** the last example value produces a find command like:
+            # **  find . -type d -xdev ! -path "*/.git" ! -path "*/.git/*" -print0
+
             # - GRAV_MULTISITE=dir # yet to be implemented
 ```
 
