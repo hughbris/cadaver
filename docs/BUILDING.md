@@ -34,7 +34,7 @@ $ docker build --no-cache --pull -t local/my-organic-cadaver .
 This is a simple shorthand to change the PHP image. Setting this will assume you are simply using the official PHP-FPM Alpine Linux base docker image.
 
 ```sh
-$ docker build --build-arg --build-arg php_ver=7.4 -t local/my-old-cadaver:php7.4 .
+$ docker build --build-arg php_ver=7.4 -t local/my-old-cadaver:php7.4 .
 ```
 
 > This setting is ignored if you also pass the build argument `base_image`. Use that instead if you want to use a community image.
