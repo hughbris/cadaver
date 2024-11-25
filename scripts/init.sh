@@ -39,7 +39,7 @@ else
 fi
 
 LogAction "Moving Grav core"
-find ./* -type d \( ! -name user \) \( ! -name backup \) \( ! -name logs \) -maxdepth 0 -exec mv '{}' $GRAV_ROOT/ \;
+find ./* -type d \( ! -regex '^\./\(user\|backup\|logs\)$' \) -maxdepth 0 -exec mv '{}' $GRAV_ROOT/ \;
 find ./ -type d -name ".?*" -maxdepth 1 -exec mv '{}' $GRAV_ROOT/ \; # because above match expression does not include hidden dirs, .github etc
 find . -type f -maxdepth 1 -exec mv {} $GRAV_ROOT/ \;
 
