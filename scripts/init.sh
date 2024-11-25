@@ -92,6 +92,8 @@ if [[ $GRAV_SCHEDULER == "true" ]]; then
   touch /var/spool/cron/crontabs/www-user && chown www-user /var/spool/cron/crontabs/www-user
   (crontab -l; echo "* * * * * cd /var/www/grav;bin/grav scheduler 1>> /dev/null 2>&1") | crontab -u www-user - && \
     crond -l 0 -L /var/log/cron.log
+else
+  LogInfo "Did not set up Grav scheduler"
 fi
 
 LogSuccess "Init steps completed"
