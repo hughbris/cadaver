@@ -56,13 +56,15 @@ find . -type f -maxdepth 1 -exec mv {} $GRAV_ROOT/ \;
 ROBOTS_DISALLOW=${ROBOTS_DISALLOW:-"false"}
 if [[ $ROBOTS_DISALLOW == "AI_BOTS" ]]; then
   LogAction "Discouraging AI bots only with robots.txt"
-  cat $GRAV_ROOT/robots.txt >> /tmp/extras/robots.ai-bots.txt \
-    && cp -f /tmp/extras/robots.ai-bots.txt $GRAV_ROOT/robots.txt \
+  cat /tmp/extras/robots.ai-bots.txt $GRAV_ROOT/robots.txt > _robots.ai-bots.txt \
+    && mv -fv _robots.ai-bots.txt $GRAV_ROOT/robots.txt \
     || LogError "Could not create custom robots.txt"
 elif [[ $ROBOTS_DISALLOW == "true" ]]; then
   LogAction "Copying discouraging robots.txt"
-  cp -f /tmp/extras/robots.disallow.txt $GRAV_ROOT/robots.txt \
+  cp -fv /tmp/extras/robots.disallow.txt $GRAV_ROOT/robots.txt \
     || LogError "Could not create restrictive robots.txt"
+else
+  LogInfo "Using Grav\'s default robots.txt"
 fi
 
 # Clean up
