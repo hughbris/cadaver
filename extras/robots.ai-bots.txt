@@ -1,7 +1,4 @@
 # This file will advise AI content scraping bots only not to index your site. It's discretionary but observed by major search engines, see https://en.wikipedia.org/wiki/Robots_exclusion_standard
-# Pass the environment variable ROBOTS_DISALLOW=AI_BOTS to deploy it on your container.
-# Another solution is provided here: https://learn.getgrav.org/17/cookbook/general-recipes#display-different-robots-txt-contents-for-different-environments
-# TODO: move this into the README
 User-agent: GPTBot
 User-agent: Google-Extended
 Disallow: /

@@ -18,7 +18,25 @@ $ docker pull ghcr.io/hughbris/cadaver
 
 You can use one of the [packaged images already built](https://github.com/hughbris/cadaver/pkgs/container/cadaver) or [build your own](docs/BUILDING.md) if you want to deploy some custom options.
 
-### Using docker-compose
+### Running containers
+
+#### Runtime environment variables
+
+##### `ROBOTS_DISALLOW`
+
+Grav websites, including those created using Cadaver, serve a default [`robots.txt`](https://en.wikipedia.org/wiki/Robots_exclusion_standard) file at _/robots.txt_. The `ROBOTS_DISALLOW` variable allows you to serve some rudimentary preset variations of _/robots.txt_.
+
+> You don't need to use this variable, it's a shortcut to some common options. You can also:
+> * create a completely custom `robots.txt` on your host and use a bind mount to mount it in your docker container; _or_
+> * [set up a custom `robots.txt` file completely within Grav's _/user_ directory, and for specific environments](https://learn.getgrav.org/17/cookbook/general-recipes#display-different-robots-txt-contents-for-different-environments).
+
+**`ROBOTS_DISALLOW` values:**
+
+* **`false`** (default)**:** use the `robots.txt` file bundled with Grav
+* **`true`:** use a `robots.txt` file requesting web crawlers _not_ to index your site. Deploy this to any internet accessible environments (e.g. staging) where you have no other protection in place (like HTTP Basic authentication).
+* **`AI_BOTS`:** use the standard permissive `robots.txt` file but block some AI content harvesters.
+
+#### Example docker-compose
 
 My compose file looks something like this, tweak as needed:
 
@@ -62,7 +80,7 @@ services:
             - PGID=1000
             - ACME_AGREE=true
             # - GRAV_SCHEDULER=true # defaults to false currently
-            # - ROBOTS_DISALLOW=true # defaults to false, set true for staging environments etc, see extras/robots.disallow.txt for more discussion; set to "AI_BOTS" to block only AI content harvesters, see extras/robots.ai-bots.txt for details
+            # - ROBOTS_DISALLOW=true
 
             # ** PERMISSIONS_* variables all default to empty string **
             # - PERMISSIONS_GLOBAL=-xdev # global find arguments for permission setting
