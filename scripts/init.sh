@@ -1,6 +1,8 @@
 #!/bin/sh
 source "/grav/helpers.sh"
 
+export LOG_LEVEL=${LOG_LEVEL:-8}
+
 LogInfo "Init script starting"
 
 # Setup Grav

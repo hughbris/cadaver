@@ -22,6 +22,23 @@ You can use one of the [packaged images already built](https://github.com/hughbr
 
 #### Runtime environment variables
 
+##### `LOG_LEVEL`
+
+Specify a logging level from `0` to `10` for the container's _startup script_ during container startup. Default is `8`, which will log everything except debugging messages.
+
+> Note that these log levels only apply to the container's startup script, which initialises the Grav environment. Logging from the webserver and any other services are not managed by this setting. A level of `0` will still show container logs.
+
+Level thresholds for log entry types are:
+
+Showing          | Requires at least
+---------------- | :---------------:
+Errors           | 1
+Warnings         | 3
+Actions          | 5
+Success          | 6
+Info _(default)_ | 8
+Debug            | 10
+
 ##### `ROBOTS_DISALLOW`
 
 Grav websites, including those created using Cadaver, serve a default [`robots.txt`](https://en.wikipedia.org/wiki/Robots_exclusion_standard) file at _/robots.txt_. The `ROBOTS_DISALLOW` variable allows you to serve some rudimentary preset variations of _/robots.txt_.
@@ -81,6 +98,7 @@ services:
             - ACME_AGREE=true
             # - GRAV_SCHEDULER=true # defaults to false currently
             # - ROBOTS_DISALLOW=true
+            # - LOG_LEVEL=10
 
             # ** PERMISSIONS_* variables all default to empty string **
             # - PERMISSIONS_GLOBAL=-xdev # global find arguments for permission setting

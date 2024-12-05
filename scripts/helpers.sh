@@ -21,33 +21,41 @@ export EmojiHazard="\xe2\x9b\x9b"
 export EmojiCross="\xf0\x9f\x97\xb6"
 export EmojiTick="\xf0\x9f\x97\xb8"
 export EmojiFlash="\xf0\x9f\x97\xb2"
+export EmojiDebug="\xf0\x9f\x90\x9b"
 
 Log() {
   local message="$1"
-  local color="$2"
-  local symbol="$3"
-  local prefix="$4"
-  local suffix="$5"
+  local threshold="${2:-0}"
+  local color="$3"
+  local symbol="$4"
+  local prefix="$5"
+  local suffix="$6"
   if [ $symbol ]; then
     local symbols="$symbol $symbol $symbol"
     local symbols_start="$symbols "
     local symbols_end=" $symbols"
   fi
-  echo -e "$color$symbols_start$prefix$message$suffix$symbols_end$RESET" | xargs
+
+  if [[ $LOG_LEVEL -ge $threshold ]]; then
+    echo -e "$color$symbols_start$prefix$message$suffix$symbols_end$RESET" | xargs
+  fi
 }
 
 LogInfo() {
-  Log "$1" "$BlueBoldText" $EmojiInfo
+  Log "$1" 8 "$BlueBoldText" $EmojiInfo
 }
 LogWarn() {
-  Log "$1" "$YellowBoldText" $EmojiHazard
+  Log "$1" 3 "$YellowBoldText" $EmojiHazard
 }
 LogError() {
-  Log "$1" "$RedBoldText" $EmojiCross
+  Log "$1" 1 "$RedBoldText" $EmojiCross
 }
 LogSuccess() {
-  Log "$1" "$GreenBoldText" $EmojiTick
+  Log "$1" 6 "$GreenBoldText" $EmojiTick
 }
 LogAction() {
-  Log "$1" "$MagentaBoldText" $EmojiFlash
+  Log "$1" 5 "$MagentaBoldText" $EmojiFlash
+}
+LogDebug() {
+  Log "$1" 10 "$WhiteBoldText" $EmojiDebug
 }
