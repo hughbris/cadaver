@@ -6,19 +6,14 @@ export LOG_LEVEL=${LOG_LEVEL:-8}
 
 LogInfo "Init script starting"
 
-ExecDestroy() {
-  LogDebug "Execute and destroy: $1"
-  $1 && unset -f $1
-}
-
 # Setup Grav
 export GRAV_ROOT=/var/www/grav
 export GRAV_TEMP=/var/www/grav-src
 
 cd $GRAV_TEMP
 
-ExecDestroy GravSetupPersistent
-ExecDestroy GravSetupEphemeral
+GravSetupPersistent
+GravSetupEphemeral
 
 # TODO
 # check for supported GRAV_MULTISITE setting
@@ -29,7 +24,7 @@ ExecDestroy GravSetupEphemeral
 #   mkdir -p $GRAV_ROOT/user/sites
 # fi
 
-ExecDestroy GravSetupRobotsTxt
+GravSetupRobotsTxt
 
 # Clean up
 LogAction "Cleaning up working files"
@@ -39,7 +34,7 @@ rm -Rf /tmp/extras
 
 GravSetPermissions
 
-ExecDestroy InitGravScheduler
+InitGravScheduler
 
 LogSuccess "Init steps completed"
 LogAction "Starting caddy"
