@@ -1,12 +1,17 @@
 #!/bin/sh
 source "/grav/helpers.sh"
+source "/grav/setup.sh"
 
 export LOG_LEVEL=${LOG_LEVEL:-8}
 
 LogInfo "Init script starting"
 
-# Setup Grav
+ExecDestroy() {
+  LogDebug "Execute and destroy: $1"
+  $1 && unset -f $1
+}
 
+# Setup Grav
 export GRAV_ROOT=/var/www/grav
 export GRAV_TEMP=/var/www/grav-src
 
