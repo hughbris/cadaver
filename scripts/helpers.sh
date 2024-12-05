@@ -41,6 +41,19 @@ Log() {
   fi
 }
 
+LogSplash() {
+  printf '%b
+                          _|                                            
+  _|_|_|    _|_|_|    _|_|_|    _|_|_|  _|      _|    _|_|    _|  _|_|  
+_|        _|    _|  _|    _|  _|    _|  _|      _|  _|_|_|_|  _|_|      
+_|        _|    _|  _|    _|  _|    _|    _|  _|    _|        _|        
+  _|_|_|    _|_|_|    _|_|_|    _|_|_|      _|        _|_|_|  _|        
+
+                   Caddy serving Grav in Docker
+
+' $CyanBoldText
+}
+
 LogInfo() {
   Log "$1" 8 "$BlueBoldText" $EmojiInfo
 }

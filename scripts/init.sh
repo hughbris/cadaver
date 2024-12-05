@@ -4,6 +4,8 @@ source "/grav/setup.sh"
 
 export LOG_LEVEL=${LOG_LEVEL:-8}
 
+LogSplash
+
 LogInfo "Init script starting"
 
 # Setup Grav
