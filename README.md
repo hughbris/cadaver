@@ -119,3 +119,5 @@ Cron and Grav's scheduler are enabled using the `GRAV_SCHEDULER` environment set
 ## Credits
 
 I started this project trying to marry concepts and techniques found in [dsavell/docker-grav](https://github.com/dsavell/docker-grav) and [seffyroff/caddy-grav-alpine](https://github.com/seffyroff/caddy-grav-alpine).
+
+Fancy ASCII log splash created using [FIGlet](http://www.figlet.org).

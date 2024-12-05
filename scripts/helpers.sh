@@ -49,7 +49,7 @@ _|        _|    _|  _|    _|  _|    _|  _|      _|  _|_|_|_|  _|_|
 _|        _|    _|  _|    _|  _|    _|    _|  _|    _|        _|        
   _|_|_|    _|_|_|    _|_|_|    _|_|_|      _|        _|_|_|  _|        
 
-                   Caddy serving Grav in Docker
+                     Caddy serving Grav in Docker
 
 ' $CyanBoldText
 }
