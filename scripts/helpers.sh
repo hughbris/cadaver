@@ -37,7 +37,7 @@ Log() {
   fi
 
   if [[ $LOG_LEVEL -ge $threshold ]]; then
-    echo -e "$color$symbols_start$prefix$message$suffix$symbols_end$RESET" | xargs
+    echo -e "$color$symbols_start$prefix$message$suffix$symbols_end$RESET"
   fi
 }
 

@@ -56,7 +56,7 @@ GravSetupRobotsTxt() {
     cp -fv /tmp/extras/robots.disallow.txt $GRAV_ROOT/robots.txt \
       || LogError "Could not create restrictive robots.txt"
   else
-    LogInfo "Using Grav\'s default robots.txt"
+    LogInfo "Using Grav's default robots.txt"
   fi
 }
 

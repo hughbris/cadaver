@@ -1,6 +1,6 @@
 #!/bin/sh
-source "/grav/helpers.sh"
-source "/grav/setup.sh"
+source /grav/helpers.sh
+source /grav/setup.sh
 
 export LOG_LEVEL=${LOG_LEVEL:-8}
 
