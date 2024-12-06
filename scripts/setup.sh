@@ -5,7 +5,7 @@
 
 GravSetupPersistent() {
 
-  if [[ -e $GRAV_ROOT/backup/* || -e $GRAV_ROOT/backup/.gitkeep ]]; then
+  if [[ -e $GRAV_ROOT/backup/*.zip || -e $GRAV_ROOT/backup/.gitkeep ]]; then
     LogInfo "Using existing backup directory"
   else
     LogAction "Fresh install, moving backup"
@@ -14,7 +14,7 @@ GravSetupPersistent() {
       || LogError "Could not move backup"
   fi
 
-  if [[ -e $GRAV_ROOT/logs/* || -e $GRAV_ROOT/logs/.gitkeep ]]; then
+  if [[ -e $GRAV_ROOT/logs/*.log || -e $GRAV_ROOT/logs/.gitkeep ]]; then
     LogInfo "Using existing logs directory"
   else
     LogAction "Fresh install, moving logs"
