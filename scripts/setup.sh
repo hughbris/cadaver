@@ -77,11 +77,8 @@ GravSetPermissions() {
 
 InitGravScheduler() {
   # set and start cron
+  # Note: this may not be supported in future - see https://github.com/hughbris/cadaver#GRAV_SCHEDULER for an explanation and discussion of better ways
   GRAV_SCHEDULER=${GRAV_SCHEDULER:-false}
-  # there are a few reasons you might not want the scheduler on:
-  #   - not needed for any custom jobs in a dev/test environment,
-  #   - it's not reliable in a container (so it's been said, this is also why this setting defaults to false currently),
-  #   - you want to run cron from outside the container (on host or dedicated container, as is apparently best practice).
   if [[ $GRAV_SCHEDULER == "true" ]]; then
     LogAction "Adding grav scheduler to caddy user's crontab"
     touch /var/spool/cron/crontabs/www-user && chown www-user /var/spool/cron/crontabs/www-user
