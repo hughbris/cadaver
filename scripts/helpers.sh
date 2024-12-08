@@ -50,8 +50,8 @@ _|        _|    _|  _|    _|  _|    _|    _|  _|    _|        _|
   _|_|_|    _|_|_|    _|_|_|    _|_|_|      _|        _|_|_|  _|        
 
                      Caddy serving Grav in Docker
-
 ' $CyanBoldText
+  echo -e "$RESET"
 }
 
 LogInfo() {
