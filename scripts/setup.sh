@@ -5,7 +5,7 @@
 
 GravSetupPersistent() {
 
-  if [[ $(ls /var/www/grav/backup/* 2>/dev/null | wc -l) -gt 0 || -e "$GRAV_ROOT/backup/.gitkeep" ]]; then
+  if [[ $(ls $GRAV_ROOT/backup/* 2>/dev/null | wc -l) -gt 0 || -e $GRAV_ROOT/backup/.gitkeep ]]; then
     LogInfo "Using existing backup directory"
   else
     LogAction "Fresh install, moving backup"
@@ -14,7 +14,7 @@ GravSetupPersistent() {
       || LogError "Could not move backup"
   fi
 
-  if  [[ $(ls /var/www/grav/logs/* 2>/dev/null | wc -l) -gt 0 || -e "$GRAV_ROOT/logs/.gitkeep" ]]; then
+  if  [[ $(ls $GRAV_ROOT/logs/* 2>/dev/null | wc -l) -gt 0 || -e "$GRAV_ROOT/logs/.gitkeep" ]]; then
     LogInfo "Using existing logs directory"
   else
     LogAction "Fresh install, moving logs"
@@ -28,7 +28,7 @@ GravSetupPersistent() {
   else
     LogAction "Fresh install, moving user directories"
     mkdir $GRAV_ROOT/user
-    mv "$GRAV_TEMP/user/*" $GRAV_ROOT/user/ \
+    mv $GRAV_TEMP/user/* $GRAV_ROOT/user/ \
       && LogSuccess "Moved user directories" \
       || LogError "Could not move all user directories"
   fi
