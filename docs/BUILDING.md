@@ -1,8 +1,12 @@
-# Building the docker image
+# Cadaver
+
+* Usage
+
+## Building the docker image
 
 If you need to build the image locally, maybe for your own special flavour, first clone this repo.
 
-## Basic build-it-yourself
+### Basic build-it-yourself
 
 In the repo directory, use this command to build your image. Use whatever target image name you prefer.
 
@@ -19,7 +23,7 @@ $ docker build --no-cache --pull -t local/my-organic-cadaver .
 
 > This will use more bandwidth and may *not* be what you want this time.
 
-## Adding in custom build options
+### Adding in custom build options
 
 | Option | Default | Function |
 :------- | :------ | :-------
@@ -29,7 +33,7 @@ $ docker build --no-cache --pull -t local/my-organic-cadaver .
 | `composer_args` | _--no-dev_ | [Composer arguments](#composer-arguments) |
 | `php_ini` | _production_ | [php.ini preset profile](#phpini-preset-profile) |
 
-### PHP version
+#### PHP version
 
 This is a simple shorthand to change the PHP image. Setting this will assume you are simply using the official PHP-FPM Alpine Linux base docker image.
 
@@ -39,7 +43,7 @@ $ docker build --build-arg php_ver=7.4 -t local/my-old-cadaver:php7.4 .
 
 > This setting is ignored if you also pass the build argument `base_image`. Use that instead if you want to use a community image.
 
-### PHP base image
+#### PHP base image
 
 You can change the *PHP base image* using the build-time argument `base_image`, e.g.
 
@@ -51,7 +55,7 @@ $ docker build --build-arg base_image=php:7.4-fpm-bullseye -t local/my-special-c
 
 > The default `base_image` value is derived from the value of `php_ver`, which has a default value of _8.4_. The default _8.4_ will effectively set `base_image` to _php:8.4-fpm-alpine_.
 
-### Grav release or branch
+#### Grav release or branch
 
 Let's say you want to try out a new beta or revert to a specific Grav version. Pass in the `Grav_tag` argument when you build the image, e.g.:
 
@@ -61,7 +65,7 @@ $ docker build --build-arg Grav_tag=1.7.46 -t local/my-niche-cadaver:grav1.7.46 
 
 The default is _master_, which is the branch of the latest official Grav release.
 
-### Composer arguments
+#### Composer arguments
 
 A major stage of Grav's installation runs PHP composer. You can pass custom composer flags (arguments) using the `composer_args` docker build parameter.
 
@@ -85,7 +89,7 @@ $ docker build --build-arg composer_args= -t local/my-custom-cadaver:dev .
 $ docker build --build-arg composer_args=--dev -t local/my-custom-cadaver:dev .
 ```
 
-### `php.ini` preset profile
+#### `php.ini` preset profile
 
 PHP often comes bundled with a couple of bogstandard `php.ini` files to get you started that serve pretty well. There should be at least one for _development_ (`php.ini-development`) and one for _production_ (`php.ini-production`) (the default).
 
