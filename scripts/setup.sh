@@ -77,7 +77,7 @@ GravSetPermissions() {
 
 InitGravScheduler() {
   # set and start cron
-  # Note: this may not be supported in future - see https://github.com/hughbris/cadaver#GRAV_SCHEDULER for an explanation and discussion of better ways
+  # Note: this may not be supported in future - see https://github.com/hughbris/cadaver/docs/ENVIRONMENT.md#grav_scheduler for an explanation and discussion of better ways
   GRAV_SCHEDULER=${GRAV_SCHEDULER:-false}
   if [[ $GRAV_SCHEDULER == "true" ]]; then
     LogAction "Adding grav scheduler to caddy user's crontab"

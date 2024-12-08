@@ -37,9 +37,9 @@ There is a selection of [environment variables](https://docs.docker.com/get-star
 
 Variable           | Default    | Description
 -----------------: | :--------------- | :---------------
-[`LOG_LEVEL`](docs/ENVIRONMENT.md#LOG_LEVEL)             | 8       | Set how verbosely the startup script outputs log messages
-[`ROBOTS_DISALLOW`](docs/ENVIRONMENT.md#ROBOTS_DISALLOW) | _false_ | Control which indexing bots your container's website encourages
-[`GRAV_SCHEDULER`](docs/ENVIRONMENT.md#GRAV_SCHEDULER)   | _false_ | Toggle your container's built-in scheduling process
+[`LOG_LEVEL`](docs/ENVIRONMENT.md#log_level)             | 8       | Set how verbosely the startup script outputs log messages
+[`ROBOTS_DISALLOW`](docs/ENVIRONMENT.md#robots_disallow) | _false_ | Control which indexing bots your container's website encourages
+[`GRAV_SCHEDULER`](docs/ENVIRONMENT.md#grav_scheduler)   | _false_ | Toggle your container's built-in scheduling process
 
 #### Example docker-compose
 
@@ -102,7 +102,7 @@ This serves the site at http://127.0.0.1:666. The first test I usually perform i
 
 ## Caveats
 
-Cron and Grav's scheduler are enabled using the `GRAV_SCHEDULER` environment setting. Support for running `cron` in the service container using this variable [may be removed in future](https://github.com/hughbris/cadaver#GRAV_SCHEDULER).
+Cron and Grav's scheduler are enabled using the `GRAV_SCHEDULER` environment setting. Support for running `cron` in the service container using this variable [may be removed in future](docs/ENVIRONMENT.md#robots_disallow).
 
 ## Credits
 
