@@ -55,32 +55,89 @@ Grav websites, including those created using Cadaver, serve a default [`robots.t
 
 ##### `GRAV_SCHEDULER`
 
-This setting controls setting up and establishing Grav's job scheduler by setting up a `cron` job inside the container. Set this to `true` to set up and enable the scheduler. By default this is `false`/disabled.
+This setting controls setting up and establishing Grav's job scheduler by setting up a `cron` job _inside the container_. Set this to `true` to set up and enable the included scheduler. By default this is `false`/disabled.
 
 > While the in-container cron-based scheduler _works with the current PHP-FPM base image,_ running a cron process within a container providing another service seems antithetical to Docker best practices. You might want to consider another method for enabling Grav's scheduler for this reason, and also because **future versions of Cadaver [may use a different base image](https://github.com/hughbris/cadaver/issues/12) without a `cron` service**. If that happens, the `GRAV_SCHEDULER` variable won't be supported. Future-proof alternatives are discussed below.
 
-There are a few reasons you might want to disable Grav's scheduler:
+There are a few reasons you might want to disable Grav's included scheduler:
 
 * it's not needed, for example:
   * you don't need zipped backups because you're using version control
-  * you don't need the built-in cache maintenance jobs because you are in a development environment
+  * you don't need the built-in cache maintenance jobs because you are in a non-production environment
   * you have no custom jobs set up
-* you think it's an anti-pattern and/or unreliable within the service container _(see above)_
+* you think it's an anti-pattern and/or unreliable within the service container _(see note above)_
 * you want to run cron from outside the container (as is apparently best practice, _see below_).
 
 **Alternative scheduler implementations:**
 
-You can run the Grav scheduler in your container on your host machine, adding a line like this to your host `crontab`:
+You can run simply the Grav scheduler in your container on your host machine, adding a line like this to your host `crontab`:
 
 ```sh
 * * * * * docker exec -u www-user cadaver-dev sh -c "/var/www/grav/bin/grav scheduler 1>> /dev/null 2>&1"
 ```
 
-Instead of messing with the host's `crontab`, you may prefer to run a dedicated cron service container like [ofelia](https://github.com/mcuadros/ofelia) or [deck-chores](https://github.com/funkyfuture/deck-chores).
+Instead of messing with the host's `crontab`, you may prefer to run a dedicated cron service container like [Ofelia](https://github.com/mcuadros/ofelia) or [deck-chores](https://github.com/funkyfuture/deck-chores).
 
-**deck-chores** is probably the simpler of these two to set up, although I haven't been able to get error logging redirected yet. The cron container will capture errors in its docker logs.
+Ofelia and deck-chores are pretty close in setup and features. Both solutions require these steps:
 
-Start by creating a docker-compose file for your scheduler container:
+1. **Check** that Cadaver's included scheduler is off.
+1. **Add formatted labels** to Cadaver containers.
+1. **Run the scheduler** service container. We do this last so that the service picks up the container labels, as it will not discover changes to these labels without a restart.
+
+Feature support and comparison:
+
+* Ofelia allows scheduling to the **precision** of seconds, allowing you to stagger your host server's load over the different parts of the minute when your containers' running Grav schedulers fire;
+* deck-chores allows you to set **execution timezones** globally and per container; it's not clear if Ofelia supports different container timezones natively, not at all, or supports configuring per container;
+* Neither have straighforward **log redirection** support/documentation;
+* Neither support dynamic **schedule reloading** when running container labels are changed.
+
+> If you update Cadaver container labels, you need to restart your scheduler container service with something like `docker-compose up -d --force-recreate` so that the service detects and loads your modifications.
+
+First, ensure that `GRAV_SCHEDULER` is not true in your container so that we're not running Cadaver's included scheduler.
+
+Then you just need to add some labels to your Cadaver container's docker-compose file (or other):
+
+```yaml
+    environment:
+      # …
+      GRAV_SCHEDULER: false # this is the default, just make sure it's not set true
+    labels:
+      # …
+
+      # *** This example shows labels for each solution. Choose one for the solution you are using. Using both sets of labels won't cause issues unless you run both scheduler service containers concurrently.
+
+      # Ofelia:
+      ofelia.enabled: true
+      ofelia.job-exec.grav-scheduler.command: sh -c "/var/www/grav/bin/grav scheduler 1>> /dev/null 2>&1" # this logs errors to the Ofelia container, yet to figure out how to redirect those to Cadaver containers
+      ofelia.job-exec.grav-scheduler.schedule: "@every 1m" # or …
+      # ofelia.job-exec.grav-scheduler.schedule: "30 * * * * *" # this schedule runs at 30 seconds past each minute rather than in the first second
+      ofelia.job-exec.grav-scheduler.user: www-user
+
+      # deck-chores:
+      deck-chores.grav-scheduler.command: sh -c "/var/www/grav/bin/grav scheduler 1>> /dev/null 2>&1" # this logs errors to the deck-chores container, yet to figure out how to redirect those to Cadaver containers
+      deck-chores.grav-scheduler.interval: every minute
+      deck-chores.grav-scheduler.user: www-user
+      # deck-chores.grav-scheduler.env.timezone: Pacific/Auckland # to override the scheduling TIMEZONE of the deck-chores container if necessary
+```
+
+Then create a docker-compose file for your scheduler container.
+
+**Ofelia example:**
+
+```yaml
+name: ofelia_example
+
+services:
+  ofelia:
+    container_name: ofelia-example
+    image: mcuadros/ofelia # if there's a stable image tag, I don't know it
+    restart: unless-stopped
+    command: daemon --docker # you must specify this if you want ofelia to use your container docker labels (by default it supports an ini file configuration option)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+```
+
+**deck-chores example:**
 
 ```yaml
 name: deck-chores_example
@@ -97,23 +154,7 @@ services:
       # maybe bind mount a volume for persistent logs here, since I haven't been able to redirect these to the calling container yet
 ```
 
-Then `docker compose up -d` to get that started.
-
-Make sure `GRAV_SCHEDULER` is not true in your Cadaver container. Then you just need to add some labels to your Cadaver container's docker-compose file (or other):
-
-```yaml
-        environment:
-            # …
-            GRAV_SCHEDULER: false # this is the default, just make sure it's not set true
-        labels:
-            # …
-            deck-chores.grav-scheduler.command: sh -c "/var/www/grav/bin/grav scheduler 1>> /dev/null 2>&1" # this logs errors to the deck-chores container, yet to figure out how to redirect those to Cadaver containers
-            deck-chores.grav-scheduler.interval: every minute
-            deck-chores.grav-scheduler.user: www-user
-            # deck-chores.grav-scheduler.env.timezone: Pacific/Auckland # to override the scheduling TIMEZONE of the deck-chores container if necessary
-```
-
-> If you change these deck-chores labels, note that until [deck-chores fixes this](https://github.com/funkyfuture/deck-chores/issues/114), you need to restart your deck-chores service with something like `docker-compose up -d --force-recreate` for deck-chores to notice reload your modifications.
+Then `docker compose up -d` to get that started. When restarting after modifying your Cadaver container's labels (and restarting those containers first!), you may need to add `--force-recreate` to reload those reliably.
 
 #### Example docker-compose
 
