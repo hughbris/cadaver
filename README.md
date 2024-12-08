@@ -20,12 +20,16 @@ You can use one of the [packaged images already built](https://github.com/hughbr
 
 ### Running containers
 
+#### Mount points
 
-
-
-
-
-
+Container path             | Mount usage
+-------------------------- | ---------------
+`/var/www/grav/backup`     | Mount this if you want to keep Grav backups. Bear in mind that Grav's scheduler may not run if cron is not running in your container. Also bear in mind that a collection of Grav backups, especially created on a schedule, can get very large.
+`/var/www/grav/logs`       | Mount this to persist Grav's logs. You may not care about this on a development or temporary installment.
+`/var/www/grav/user`       | Be sure to bind mount this to your host if you want your website to persist between reboots. You almost always want to mount this.
+`/etc/timezone`            | Standard best practice for many container images to inherit the host's timezone, _bind mount read-only_.
+`/etc/localtime`           | Standard best practice for many container images, _mount read-only_.
+`/var/www/grav/robots.txt` | You can bind mount this read-only to a fully custom `robots.txt` file on your host. If your requirements are standard, you can also use the[`ROBOTS_DISALLOW`](docs/ENVIRONMENT.md#ROBOTS_DISALLOW) environment variable for common preset options. You can also set up a custom _/robots.txt_ within Grav's user directory using the [recipe on Grav Learn](https://learn.getgrav.org/17/cookbook/general-recipes#display-different-robots-txt-contents-for-different-environments).
 
 #### Runtime environment variables
 
