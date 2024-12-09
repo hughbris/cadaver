@@ -2,7 +2,7 @@
 ## 09-12-2024
 
 1. [](#bugfix)
-    * detecting `logs` and `backup` directories for existing installs no longer throws an error (~ ce5490e nope~ → d859101)
+    * detecting `logs` and `backup` directories for existing installs no longer throws an error (~ce5490e nope~ → d859101)
 
 2. [](#improved)
     * default PHP minor version is PHP 8.4
