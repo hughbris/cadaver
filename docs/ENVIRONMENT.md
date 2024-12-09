@@ -1,7 +1,7 @@
 # Cadaver
 
-* Usage
-  * Running containers
+* [Usage](../README.md#usage)
+  * [Running containers](../README.md#running-containers)
 
 ## Runtime environment variables
 
