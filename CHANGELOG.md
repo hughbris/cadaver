@@ -1,3 +1,20 @@
+# v0.2.6
+## 09-12-2024
+
+1. [](#bugfix)
+    * detecting `logs` and `backup` directories for existing installs no longer throws an error (~ ce5490e nope~ → d859101)
+
+2. [](#improved)
+    * default PHP minor version is PHP 8.4
+    * better, configurable permission setting commands
+    * move Grav setup steps to separate shell file and source from init script
+    * test and document `GRAV_SCHEDULER` and outline better solutions using dedicated scheduler service containers in the README
+    * add mount points synopsis to README
+
+3. [](#new)
+    * add init script log levels variable and new debug log entries (9564980)
+    * fancy colourful splash banner in log
+
 # v0.2.5.1
 ## 21-11-2024
 
