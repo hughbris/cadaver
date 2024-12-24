@@ -6,9 +6,18 @@ FROM $base_image
 ARG Grav_tag=master
 ARG composer_args=--no-dev
 ARG php_ini=production
+ARG base_image
 
 LABEL org.opencontainers.image.source=https://github.com/hughbris/cadaver
 LABEL maintainer="Hugh Barnes"
+LABEL org.opencontainers.image.documentation=https://github.com/hughbris/cadaver/blob/main/README.md
+LABEL org.opencontainers.image.url=https://github.com/hughbris/cadaver
+LABEL org.opencontainers.image.authors="Hugh Barnes"
+LABEL org.opencontainers.image.licenses=MIT
+LABEL org.opencontainers.image.title=Cadaver
+LABEL org.opencontainers.image.description="Run Grav CMS under Caddy webserver in a docker container."
+LABEL org.opencontainers.image.ref.name=ghcr.io/hughbris/cadaver
+LABEL org.opencontainers.image.base.name="$base_image"
 
 # PHP www-user UID and GID
 ENV PUID="1000"
