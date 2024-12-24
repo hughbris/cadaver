@@ -3,6 +3,7 @@ source /grav/helpers.sh
 source /grav/setup.sh
 
 export LOG_LEVEL=${LOG_LEVEL:-8}
+ULIMIT_DEFAULT=8192
 
 LogSplash
 
@@ -37,6 +38,13 @@ rm -Rf /tmp/extras
 GravSetPermissions
 
 InitGravScheduler
+
+if [[ -z "$FILE_SIZE_LIMIT" ]]; then
+    LogInfo "Using default file size limit (ulimit) of $ULIMIT_DEFAULT, tweak this with \$FILE_SIZE_LIMIT"
+    export FILE_SIZE_LIMIT=$ULIMIT_DEFAULT
+fi
+LogAction "Setting file size limit (ulimit) to $FILE_SIZE_LIMIT"
+ulimit -n $FILE_SIZE_LIMIT
 
 LogSuccess "Init steps completed"
 LogAction "Starting caddy"
