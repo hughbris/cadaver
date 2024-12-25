@@ -6,6 +6,9 @@ FROM $base_image
 ARG Grav_tag=master
 ARG composer_args=--no-dev
 ARG php_ini=production
+ARG extra_php_extensions
+
+# redeclare in new scope ..
 ARG base_image
 
 LABEL org.opencontainers.image.source=https://github.com/hughbris/cadaver
@@ -35,7 +38,7 @@ COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
 COPY --from=wizbii/caddy /caddy /usr/local/bin/caddy
 
 RUN apk add --no-cache autoconf openssl-dev g++ make pcre-dev icu-dev git
-RUN install-php-extensions gd bcmath intl opcache zip sockets exif
+RUN install-php-extensions gd bcmath intl opcache zip sockets exif ${extra_php_extensions}
 # TODO: look at list at https://learn.getgrav.org/17/basics/requirements#php-requirements including optional modules to improve performance
 RUN apk del --purge autoconf g++ make
 RUN ln -s "php.ini-${php_ini}" "$PHP_INI_DIR/php.ini"
