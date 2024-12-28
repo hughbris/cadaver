@@ -6,7 +6,7 @@ Run Grav CMS under Caddy webserver in a docker container.
 
 ### Sourcing the docker image
 
-This image is currently available from Github's container repository only. It's not hosted on Dockerhub, because I dislike it and also because someone squatted on my username :/
+This image is currently [available from Github's container repository](https://github.com/hughbris/cadaver/pkgs/container/cadaver) only. It's not hosted on Dockerhub, because I dislike it and also because someone squatted on my username :/
 
 Pull or use the image from its canonical URL:
 
@@ -31,7 +31,7 @@ Container path             | Mount usage
 `/var/www/grav/user`       | Be sure to bind mount this to your host if you want your website to persist between reboots. You almost always want to mount this.
 `/etc/timezone`            | Standard best practice for many container images to inherit the host's timezone, _bind mount read-only_.
 `/etc/localtime`           | Standard best practice for many container images, _mount read-only_.
-`/var/www/grav/robots.txt` | You can bind mount this read-only to a fully custom `robots.txt` file on your host. If your requirements are standard, you can also use the[`ROBOTS_DISALLOW`](docs/ENVIRONMENT.md#ROBOTS_DISALLOW) environment variable for common preset options. You can also set up a custom _/robots.txt_ within Grav's user directory using the [recipe on Grav Learn](https://learn.getgrav.org/17/cookbook/general-recipes#display-different-robots-txt-contents-for-different-environments).
+`/var/www/grav/robots.txt` | You can bind mount this read-only to a fully custom `robots.txt` file on your host. If your requirements are standard, you can also use the[`ROBOTS_DISALLOW`](docs/ENVIRONMENT.md#robots_disallow) environment variable for common preset options. You can also set up a custom _/robots.txt_ within Grav's user directory using the [recipe on Grav Learn](https://learn.getgrav.org/17/cookbook/general-recipes#display-different-robots-txt-contents-for-different-environments).
 
 If you are running a development build, there are some [other development-specific mount points](docs/DEVELOPMENT.md#additional-mount-points) you'll want to make.
 
@@ -53,13 +53,13 @@ If you run a container using the `:developer` image tag or your own custom devel
 My compose file looks something like this, tweak as needed:
 
 ```yaml
-version: "3.3"
+name: cadaver_dev
 
 services:
 
    grav:
         image: ghcr.io/hughbris/cadaver
-        container_name: grav-caddy
+        container_name: cadaver
         domainname: localhost
         hostname: cadavertest
         restart: unless-stopped
