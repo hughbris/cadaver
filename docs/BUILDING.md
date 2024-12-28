@@ -24,13 +24,14 @@ $ docker build --no-cache --pull -t local/my-organic-cadaver .
 
 ## Adding in custom build options
 
-| Option          | Default      | Function |
-:---------------- | :----------- | :---------
-| `php_ver`       | _8.4_        | [PHP version](#php-version) |
-| `base_image`    | _php:`php_ver`-fpm-alpine_ | [PHP base image](#php-base-image) |
-| `Grav_tag`      | _master_     | [Grav release or branch](#grav-release-or-branch) |
-| `composer_args` | _--no-dev_   | [Composer arguments](#composer-arguments) |
-| `php_ini`       | _production_ | [php.ini preset profile](#phpini-preset-profile) |
+| Option                 | Default       | Function |
+:----------------------- | :------------ | :---------
+| `php_ver`              | _8.4_         | [PHP version](#php-version) |
+| `base_image`           | _php:`php_ver`-fpm-alpine_ | [PHP base image](#php-base-image) |
+| `Grav_tag`             | _master_      | [Grav release or branch](#grav-release-or-branch) |
+| `composer_args`        | _--no-dev -o_ | [Composer arguments](#composer-arguments) |
+| `php_ini`              | _production_  | [php.ini preset profile](#phpini-preset-profile) |
+| `extra_php_extensions` | (empty)       | [additional PHP modules to install](#additional-php-modules) |
 
 ### PHP version
 
@@ -99,3 +100,23 @@ $ docker build --build-arg php_ini=development -t local/my-playground-cadaver:de
 ```
 
 > I expect if you want your own custom `php.ini`, you could always bind mount `/usr/local/etc/php/php.ini` to your handcrafted ini file on your docker host.
+
+### Additional PHP modules
+
+Using `extra_php_extensions`, you can provide a space-separated list of PHP modules you want to install in your containers.
+
+> Grav's recommended and required modules will already be installed, so you only need to list any extra modules you want.
+
+To find out which extensions are available and how to specify them:
+
+* [supported extensions](https://github.com/mlocati/docker-php-extension-installer#supported-php-extensions)
+* [supported versions](https://github.com/mlocati/docker-php-extension-installer/blob/master/data/supported-extensions)
+* [specifying versions](https://github.com/mlocati/docker-php-extension-installer#installing-specific-versions-of-an-extension)
+* [grabbing from source code](https://github.com/mlocati/docker-php-extension-installer#installing-an-extension-from-its-source-code)
+* [search for extensions](https://mlocati.github.io/pecl-info/)
+
+Example:
+
+```sh
+$ docker build --build-arg extra_php_extensions="xdebug-stable xsl" -t local/my-bloody-cadaver:throwaway .
+```
