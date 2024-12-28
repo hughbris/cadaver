@@ -40,6 +40,7 @@ Variable           | Default    | Description
 [`LOG_LEVEL`](docs/ENVIRONMENT.md#log_level)             | 8       | Set how verbosely the startup script outputs log messages
 [`ROBOTS_DISALLOW`](docs/ENVIRONMENT.md#robots_disallow) | _false_ | Control which indexing bots your container's website encourages
 [`GRAV_SCHEDULER`](docs/ENVIRONMENT.md#grav_scheduler)   | _false_ | Toggle your container's built-in scheduling process
+[`FILE_SIZE_LIMIT`](docs/ENVIRONMENT.md#file_size_limit) | 8192    | Change the container's file descriptor limit (`ulimit`)
 
 #### Example docker-compose
 
@@ -87,6 +88,7 @@ services:
             # - GRAV_SCHEDULER=true # defaults to false currently
             # - ROBOTS_DISALLOW=true
             # - LOG_LEVEL=10
+            # - FILE_SIZE_LIMIT=8192
 
             # ** PERMISSIONS_* variables all default to empty string **
             # - PERMISSIONS_GLOBAL=-xdev # global find arguments for permission setting

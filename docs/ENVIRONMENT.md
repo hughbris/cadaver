@@ -66,3 +66,13 @@ You can simply run the Grav scheduler in your container **on your host machine**
 ```
 
 Instead of messing with the host's `crontab`, you may prefer to **[run a dedicated cron service container](SCHEDULING.md)** like _Ofelia_ or _deck-chores_.
+
+### `FILE_SIZE_LIMIT`
+
+Use this setting to adjust the container's file descriptor limit (`ulimit`). This variable was added for production environments after seeing this warning in the container logs:
+
+  WARNING: File descriptor limit 1024 is too low for production servers. At least 8192 is recommended. Fix with `ulimit -n 8192`
+
+The default value is the recommended 8192 for production servers.
+
+> It's unclear if there are good reasons to reduce this value in other environments, or why the base image uses the low value. You can probably ignore this setting without consequences if you don't understand its impact.
