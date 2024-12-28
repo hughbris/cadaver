@@ -18,6 +18,8 @@ $ docker pull ghcr.io/hughbris/cadaver
 
 You can use one of the [packaged images already built](https://github.com/hughbris/cadaver/pkgs/container/cadaver) or [build your own](docs/BUILDING.md) if you want to deploy some custom options.
 
+If you want to build a custom image for local development (PHP warnings, XDebug etc), there are some [extra steps to follow and a suggested setup](docs/DEVELOPMENT.md).
+
 ### Running containers
 
 #### Mount points
@@ -31,6 +33,8 @@ Container path             | Mount usage
 `/etc/localtime`           | Standard best practice for many container images, _mount read-only_.
 `/var/www/grav/robots.txt` | You can bind mount this read-only to a fully custom `robots.txt` file on your host. If your requirements are standard, you can also use the[`ROBOTS_DISALLOW`](docs/ENVIRONMENT.md#ROBOTS_DISALLOW) environment variable for common preset options. You can also set up a custom _/robots.txt_ within Grav's user directory using the [recipe on Grav Learn](https://learn.getgrav.org/17/cookbook/general-recipes#display-different-robots-txt-contents-for-different-environments).
 
+If you are running a development build, there are some [other development-specific mount points](docs/DEVELOPMENT.md#additional-mount-points) you'll want to make.
+
 #### Runtime environment variables
 
 There is a selection of [environment variables](https://docs.docker.com/get-started/docker-concepts/running-containers/overriding-container-defaults/#setting-environment-variables) you can pass a Cadaver container when you start it which affect its behaviour:
@@ -41,6 +45,8 @@ Variable           | Default    | Description
 [`ROBOTS_DISALLOW`](docs/ENVIRONMENT.md#robots_disallow) | _false_ | Control which indexing bots your container's website encourages
 [`GRAV_SCHEDULER`](docs/ENVIRONMENT.md#grav_scheduler)   | _false_ | Toggle your container's built-in scheduling process
 [`FILE_SIZE_LIMIT`](docs/ENVIRONMENT.md#file_size_limit) | 8192    | Change the container's file descriptor limit (`ulimit`)
+
+If you run a container using the `:developer` image tag or your own custom development image, it's worth looking at the [suggested development setup](docs/DEVELOPMENT.md).
 
 #### Example docker-compose
 

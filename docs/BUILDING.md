@@ -24,6 +24,8 @@ $ docker build --no-cache --pull -t local/my-organic-cadaver .
 
 ## Adding in custom build options
 
+> If you are building a custom image for a development environment, be sure to check out the [recommended development environment settings](docs/DEVELOPMENT.md).
+
 | Option                 | Default       | Function |
 :----------------------- | :------------ | :---------
 | `php_ver`              | _8.4_         | [PHP version](#php-version) |

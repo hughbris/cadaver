@@ -9,6 +9,8 @@ You can configure a Cadaver container and affect its behaviour by passing [envir
 
 You can pass environment variables when bringing up Cadaver containers [using command line](https://docs.docker.com/reference/cli/docker/container/run/#env) or [with docker-compose](https://docs.docker.com/reference/compose-file/services/#environment).
 
+> If you are building a custom image for a development environment, be sure to check out the [recommended development environment settings](docs/DEVELOPMENT.md).
+
 ### `LOG_LEVEL`
 
 Specify a logging level from `0` to `10` for the container's _startup script_ during container startup. **Default is `8`**, which will log everything except debugging messages.
