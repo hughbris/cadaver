@@ -37,7 +37,7 @@ If you are running a development build, there are some [other development-specif
 
 #### Runtime environment variables
 
-There is a selection of [environment variables](https://docs.docker.com/get-started/docker-concepts/running-containers/overriding-container-defaults/#setting-environment-variables) you can pass a Cadaver container when you start it which affect its behaviour:
+There is a selection of [environment variables](https://docs.docker.com/get-started/docker-concepts/running-containers/overriding-container-defaults/#setting-environment-variables) you can pass to a Cadaver container when you start it which affect its behaviour:
 
 Variable           | Default    | Description
 -----------------: | :--------------- | :---------------
@@ -110,7 +110,7 @@ This serves the site at http://127.0.0.1:666. The first test I usually perform i
 
 ## Caveats
 
-Cron and Grav's scheduler are enabled using the `GRAV_SCHEDULER` environment setting. Support for running `cron` in the service container using this variable [may be removed in future](docs/ENVIRONMENT.md#robots_disallow).
+Cron and Grav's scheduler are enabled using the `GRAV_SCHEDULER` environment setting. Support for running `cron` in the service container using this variable [may be removed in future](docs/ENVIRONMENT.md#grav_scheduler).
 
 ## Credits
 

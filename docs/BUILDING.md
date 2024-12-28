@@ -24,7 +24,7 @@ $ docker build --no-cache --pull -t local/my-organic-cadaver .
 
 ## Adding in custom build options
 
-> If you are building a custom image for a development environment, be sure to check out the [recommended development environment settings](docs/DEVELOPMENT.md).
+> If you are building a custom image for a development environment, be sure to check out the [recommended development environment settings](DEVELOPMENT.md).
 
 | Option                 | Default       | Function |
 :----------------------- | :------------ | :---------
@@ -101,7 +101,9 @@ If you want to use the _development_ ini file, build with the `php_ini` argument
 $ docker build --build-arg php_ini=development -t local/my-playground-cadaver:dev .
 ```
 
-> Alternatively, if you want your own custom `php.ini`, you can bind mount `/usr/local/etc/php/php.ini` to your handcrafted ini file on your docker host, or create a [`.user.ini` file](https://www.php.net/manual/en/configuration.file.per-user.php) on your host and bind mount it to `/usr/local/etc/php/.user.ini`.
+> Alternatively, if you want your own custom `php.ini`, you can either:
+> * bind mount `/usr/local/etc/php/php.ini` to your handcrafted ini file on your docker host, _or_
+> * create a [`.user.ini` file](https://www.php.net/manual/en/configuration.file.per-user.php) on your host and bind mount it to `/usr/local/etc/php/.user.ini`.
 
 ### Additional PHP modules
 

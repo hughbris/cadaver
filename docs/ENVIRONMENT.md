@@ -9,7 +9,7 @@ You can configure a Cadaver container and affect its behaviour by passing [envir
 
 You can pass environment variables when bringing up Cadaver containers [using command line](https://docs.docker.com/reference/cli/docker/container/run/#env) or [with docker-compose](https://docs.docker.com/reference/compose-file/services/#environment).
 
-> If you are building a custom image for a development environment, be sure to check out the [recommended development environment settings](docs/DEVELOPMENT.md).
+> If you are building a custom image for a development environment, be sure to check out the [recommended development environment settings](DEVELOPMENT.md).
 
 ### `LOG_LEVEL`
 
@@ -73,7 +73,7 @@ Instead of messing with the host's `crontab`, you may prefer to **[run a dedicat
 
 Use this setting to adjust the container's file descriptor limit (`ulimit`). This variable was added for production environments after seeing this warning in the container logs:
 
-  WARNING: File descriptor limit 1024 is too low for production servers. At least 8192 is recommended. Fix with `ulimit -n 8192`
+    WARNING: File descriptor limit 1024 is too low for production servers. At least 8192 is recommended. Fix with `ulimit -n 8192`
 
 The default value is the recommended 8192 for production servers.
 
