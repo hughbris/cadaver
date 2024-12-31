@@ -32,12 +32,12 @@ ENV ACME_AGREE="false"
 
 RUN apk update && \
     apk add --no-cache tzdata
+RUN apk add --no-cache autoconf openssl-dev g++ make pcre-dev icu-dev git
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
 COPY --from=wizbii/caddy /caddy /usr/local/bin/caddy
 
-RUN apk add --no-cache autoconf openssl-dev g++ make pcre-dev icu-dev git
 RUN install-php-extensions gd bcmath intl opcache zip sockets exif ${extra_php_extensions}
 # TODO: look at list at https://learn.getgrav.org/17/basics/requirements#php-requirements including optional modules to improve performance
 RUN apk del --purge autoconf g++ make
