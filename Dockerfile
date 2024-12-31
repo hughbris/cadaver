@@ -38,8 +38,15 @@ COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr
 COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
 COPY --from=wizbii/caddy /caddy /usr/local/bin/caddy
 
-RUN install-php-extensions gd bcmath intl opcache zip sockets exif ${extra_php_extensions}
-# TODO: look at list at https://learn.getgrav.org/17/basics/requirements#php-requirements including optional modules to improve performance
+RUN install-php-extensions gd bcmath intl opcache zip sockets exif
+
+# install extra PHP modules provided in $extra_php_extensions
+RUN <<EOT
+  if [[ -n "${extra_php_extensions}" ]]; then
+    install-php-extensions $extra_php_extensions
+  fi
+EOT
+
 RUN apk del --purge autoconf g++ make
 RUN ln -s "php.ini-${php_ini}" "$PHP_INI_DIR/php.ini"
 
