@@ -62,8 +62,8 @@ WORKDIR /var/www
 ADD https://github.com/getgrav/grav.git#${Grav_tag} ./grav-src
 
 WORKDIR /var/www/grav-src
-RUN composer install $composer_args
 RUN bin/grav install
+RUN composer install $composer_args
 
 EXPOSE 80 443 2015
 
