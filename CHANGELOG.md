@@ -1,3 +1,20 @@
+# v0.2.7
+## 02-01-2025
+
+1. [](#new)
+    * `FILE_SIZE_LIMIT` (ulimit) runtime environment var defaulting to 8192 for production servers (4509f81)
+    * `extra_php_extensions` build argument (4895cb2), allowing additional PHP extensions like _xdebug_ ([#4](https://github.com/hughbris/cadaver/issues/4))
+    * document development builds and setup (92a1b25)
+
+2. [](#improved)
+    * more [opencontainers annotations](https://github.com/opencontainers/image-spec/blob/main/annotations.md) ([#20](https://github.com/hughbris/cadaver/issues/20); a59f348)
+    * `-o` is no longer a hardcoded composer flag, added to `composer_args` default (792ef7a)
+    * tidied up, updated docs and corrected links
+    * Dockerfile command ordering
+
+3. [](#bugfix)
+    * compose was not installing correctly when executed before grav/install, switched command order in Dockerfile (309b8fe)
+
 # v0.2.6
 ## 09-12-2024
 
