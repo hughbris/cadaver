@@ -46,7 +46,7 @@ Variable           | Default    | Description
 [`GRAV_SCHEDULER`](docs/ENVIRONMENT.md#grav_scheduler)   | _false_ | Toggle your container's built-in scheduling process
 [`FILE_SIZE_LIMIT`](docs/ENVIRONMENT.md#file_size_limit) | 8192    | Change the container's file descriptor limit (`ulimit`)
 
-If you run a container using the `:developer` image tag or your own custom development image, it's worth looking at the [suggested development setup](docs/DEVELOPMENT.md).
+If you run a container using the [`:developer` image tag](https://github.com/hughbris/cadaver/pkgs/container/cadaver/330205655?tag=developer) or your own custom development image, it's worth looking at the [suggested development setup](docs/DEVELOPMENT.md).
 
 #### Example docker-compose
 

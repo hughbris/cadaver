@@ -4,7 +4,7 @@
 
 Cadaver is designed by default to be suitable for production server deployment. It's also one of the project's goals to allow you to create containers suitable for local development, with all the tooling and configuration options you might want for that.
 
-From Cadaver 0.2.7, there is a pre-built `:developer` image/package for this purpose, but you'll still need to set up your container to make use of the development tools and settings. You can also create your own custom development build, of course.
+From Cadaver 0.2.7, there is a [pre-built `:developer` image/package](https://github.com/hughbris/cadaver/pkgs/container/cadaver/330205655?tag=developer) for this purpose, but you'll still need to set up your container to make use of the development tools and settings. You can also create your own custom development build, of course.
 
 ### Building a custom development image
 
@@ -12,17 +12,17 @@ All [build arguments](BUILDING.md#adding-in-custom-build-options) can potentiall
 
 `composer_args` allows you to set how your `composer install` is executed when building your image. Of the [many composer flags or aguments available](https://getcomposer.org/doc/03-cli.md#install-i), only a handful are likely to be useful for development builds.
 
-> The pre-packaged `:developer` image is built using `--build-arg composer_args="--dev -o"`, which installs additional packages specified by composer package creators as required for development stacks.
+> The pre-packaged [`:developer` image](https://github.com/hughbris/cadaver/pkgs/container/cadaver/330205655?tag=developer) is built using `--build-arg composer_args="--dev -o"`, which installs additional packages specified by composer package creators as required for development stacks.
 
 You may enjoy improved build times by removing the `-o` argument, but Docker's build caching is likely to lessen that benefit.
 
 `php_ini` allows you to switch between _development_ and _production_ ini files that come pre-packaged with the base image. Only these two values will produce valid configurations. If you want to customise your PHP configuration, the simplest technique is to bind mount a `.user.ini` file on the host, as described below.
 
-> The pre-packaged `:developer` image is built using `--build-arg php_ini=development`.
+> The pre-packaged [`:developer` image](https://github.com/hughbris/cadaver/pkgs/container/cadaver/330205655?tag=developer) is built using `--build-arg php_ini=development`.
 
 With `extra_php_extensions`, you can install PHP modules for a development environment. The only one tested to this point, and installed in the `:developer` image tag, is _xdebug_. Further modules may be added by request or as proven useful.
 
-> The pre-packaged `:developer` image is built using `--build-arg extra_php_extensions=xdebug`.
+> The pre-packaged [`:developer` image](https://github.com/hughbris/cadaver/pkgs/container/cadaver/330205655?tag=developer) is built using `--build-arg extra_php_extensions=xdebug`.
 
 ### Additional mount points
 
