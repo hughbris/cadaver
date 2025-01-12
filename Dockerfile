@@ -68,8 +68,7 @@ RUN composer install $composer_args
 EXPOSE 80 443 2015
 
 COPY Caddyfile /etc/
-RUN mkdir /tmp/extras
-COPY extras /tmp/extras/
+COPY extras /tmp/extras
 COPY scripts /grav/
 
 RUN caddy -validate
