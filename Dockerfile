@@ -59,7 +59,7 @@ RUN <<EOT
 EOT
 
 WORKDIR /var/www
-ADD https://github.com/getgrav/grav.git#${Grav_tag} ./grav-src
+ADD --chown=www-user:www-user https://github.com/getgrav/grav.git#${Grav_tag} ./grav-src
 
 WORKDIR /var/www/grav-src
 RUN bin/grav install
