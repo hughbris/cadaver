@@ -69,7 +69,7 @@ GravSetPermissions() {
 
   find . $PERMISSIONS_GLOBAL -print0 | xargs -0 -n1 -r chown www-user:www-user
   find . -type f $PERMISSIONS_GLOBAL $PERMISSIONS_FILES -print0 | xargs -0 -n1 chmod 664
-  find ./bin -type f $PERMISSIONS_GLOBAL -print0 | xargs -0 -n1 chmod 775
+  find ./bin ./vendor/bin -type f $PERMISSIONS_GLOBAL -print0 | xargs -0 -n1 chmod 775
   find . -type d $PERMISSIONS_GLOBAL $PERMISSIONS_DIRS -print0 | xargs -0 -n1 chmod 775
   find . -type d $PERMISSIONS_GLOBAL $PERMISSIONS_DIRS -print0 | xargs -0 -n1 chmod +s
   umask 0002
