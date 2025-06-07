@@ -1,3 +1,10 @@
+# v0.2.8
+## 07-06-2025
+
+1. [](#bugfix)
+    * correct file ownership in `user` for clean installs (04ce321)
+    * tweak file permissions for developer tools (e9c5c80)
+
 # v0.2.7
 ## 02-01-2025
 
