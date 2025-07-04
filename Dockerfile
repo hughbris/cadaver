@@ -62,9 +62,12 @@ WORKDIR /var/www
 ADD --chown=www-user:www-user https://github.com/getgrav/grav.git#${Grav_tag} ./grav-src
 
 WORKDIR /var/www/grav-src
+
+USER www-user
 RUN bin/grav install
 RUN composer install $composer_args
 
+USER root
 EXPOSE 80 443 2015
 
 COPY Caddyfile /etc/
