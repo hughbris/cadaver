@@ -88,8 +88,6 @@ services:
               target: /etc/localtime
               read_only: true
         environment:
-            - PUID=1000
-            - PGID=1000
             - ACME_AGREE=true
             # - GRAV_SCHEDULER=true # defaults to false currently
             # - ROBOTS_DISALLOW=true

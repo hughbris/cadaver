@@ -86,7 +86,7 @@
 
 3. [](#bugfix)
     * handle filenames with spaces when setting Grav file permissions ([#10](https://github.com/hughbris/cadaver/issues/10))
-    * runtime environment variables PUID and GUID should now work as expected (fb4a235)
+    * ~runtime~ build environment variables PUID and GUID should now work as expected (fb4a235) _\[edited description]_
 
 # v0.2.3
 ## 26-02-2023
