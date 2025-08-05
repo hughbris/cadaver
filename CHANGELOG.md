@@ -1,3 +1,12 @@
+# v0.2.9
+## 05-08-2025
+
+1. [](#bugfix)
+    * run `grav install` as www-user (160ce71)
+
+2. [](#improved)
+    * update `robots.ai-bots.txt` (1f8bbce, 341dee0)
+
 # v0.2.8
 ## 07-06-2025
 
