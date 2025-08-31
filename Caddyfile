@@ -1,39 +1,22 @@
-0.0.0.0
-fastcgi / 127.0.0.1:9000 php
-on startup php-fpm
-log stdout
-errors stdout
+localhost {
+    import app-common
 
-# tls off
-gzip
-root /var/www/grav
+    # Begin - Security
+    # deny all direct access for these folders
+    rewrite /(\.git|cache|bin|logs|backups|tests)/.* /403
 
-# Begin - Security
-# deny all direct access for these folders
-rewrite {
-    r       /(\.git|cache|bin|logs|backups|tests)/.*$
-    to      /403
-}
-# deny running scripts inside core system folders
-rewrite {
-    r       /(system|vendor)/.*\.(txt|xml|md|html|yaml|yml|php|pl|py|cgi|twig|sh|bat)$
-    to      /403
-}
-# deny running scripts inside user folder
-rewrite {
-    r       /user/.*\.(txt|md|yaml|yml|php|pl|py|cgi|twig|sh|bat)$
-    to      /403
-}
-# deny access to specific files in the root folder
-rewrite {
-    r       /(README\.md|LICENSE\.txt|composer\.lock|composer\.json|nginx\.conf|web\.config|htaccess\.txt|\.htaccess)
-    to      /403
-}
+    # deny running scripts inside core system folders
+    rewrite /(system|vendor)/.*\.(txt|xml|md|html|htm|shtml|shtm|yaml|yml|php|php2|php3|php4|php5|phar|phtml|pl|py|cgi|twig|sh|bat)$ /403
 
-status 403 /403
-## End - Security
+    # deny running scripts inside user folder
+    rewrite /user/.*\.(txt|md|yaml|yml|php|php2|php3|php4|php5|phar|phtml|pl|py|cgi|twig|sh|bat)$ /403
 
-# global rewrite should come last.
-rewrite {
-    to  {path} {path}/ /index.php?_url={uri}&{query}
+    # deny access to specific files in the root folder
+    rewrite /(LICENSE\.txt|composer\.lock|composer\.json|nginx\.conf|web\.config|htaccess\.txt|\.htaccess) /403
+
+    respond /403 403
+    ## End - Security
+
+    # global rewrite should come last.
+    try_files {path} {path}/ /index.php?_url={uri}&{query}
 }

@@ -67,7 +67,7 @@ GravSetPermissions() {
   cd $GRAV_ROOT
   LogAction "Setting permissions with chmod (+ chown, umask)"
 
-  find . $PERMISSIONS_GLOBAL -print0 | xargs -0 -n1 -r chown www-user:www-user
+  find . $PERMISSIONS_GLOBAL -print0 | xargs -0 -n1 -r chown www-data:www-data
   find . -type f $PERMISSIONS_GLOBAL $PERMISSIONS_FILES -print0 | xargs -0 -n1 chmod 664
   find ./bin ./vendor/bin -type f $PERMISSIONS_GLOBAL -print0 | xargs -0 -n1 chmod 775
   find . -type d $PERMISSIONS_GLOBAL $PERMISSIONS_DIRS -print0 | xargs -0 -n1 chmod 775
@@ -81,8 +81,8 @@ InitGravScheduler() {
   GRAV_SCHEDULER=${GRAV_SCHEDULER:-false}
   if [[ $GRAV_SCHEDULER == "true" ]]; then
     LogAction "Adding grav scheduler to caddy user's crontab"
-    touch /var/spool/cron/crontabs/www-user && chown www-user /var/spool/cron/crontabs/www-user
-    (crontab -l; echo "* * * * * cd /var/www/grav;bin/grav scheduler 1>> /dev/null 2>&1") | crontab -u www-user - && \
+    touch /var/spool/cron/crontabs/www-data && chown www-data /var/spool/cron/crontabs/www-data
+    (crontab -l; echo "* * * * * cd /var/www/grav;bin/grav scheduler 1>> /dev/null 2>&1") | crontab -u www-data - && \
       crond -l 0 -L /var/log/cron.log
   else
     LogInfo "Did not set up Grav scheduler"

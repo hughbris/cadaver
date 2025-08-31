@@ -1,7 +1,10 @@
 ARG php_ver=8.4
-ARG base_image=php:${base_image:-${php_ver}-fpm-alpine}
+ARG base_image=serversideup/php-dev:283-${php_ver}-frankenphp-alpine
 FROM $base_image
 # credit for important parts of this to https://gist.github.com/Baldinof/8af17f09c7a57aa468e1b6c66d4272a3
+
+ENV APP_BASE_DIR=/var/www
+ENV CADDY_APP_PUBLIC_PATH=/var/www/grav
 
 ARG Grav_tag=master
 ARG composer_args='--no-dev -o'
@@ -22,23 +25,22 @@ LABEL org.opencontainers.image.description="Run Grav CMS under Caddy webserver i
 LABEL org.opencontainers.image.ref.name=ghcr.io/hughbris/cadaver
 LABEL org.opencontainers.image.base.name="$base_image"
 
-# PHP www-user UID and GID
-ENV PUID="1000"
-ENV PGID="1000"
+# PHP www-data UID and GID
+ARG PUID="1000"
+ARG PGID="1000"
 
-# Let's Encrypt Agreement
-# FIXME: hmm, do I need this?
-ENV ACME_AGREE="false"
+USER root
+
+RUN docker-php-serversideup-set-id www-data $PUID:$PGID && \
+    docker-php-serversideup-set-file-permissions --owner $PUID:$PGID --service frankenphp
 
 RUN apk update && \
     apk add --no-cache tzdata
 RUN apk add --no-cache autoconf openssl-dev g++ make pcre-dev icu-dev git
 
-COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
-COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
-COPY --from=wizbii/caddy /caddy /usr/local/bin/caddy
+RUN install-php-extensions gd bcmath intl sockets exif
 
-RUN install-php-extensions gd bcmath intl opcache zip sockets exif
+# TODO: toggle OPCACHE setting?? PHP_OPCACHE_ENABLE=1
 
 # install extra PHP modules provided in $extra_php_extensions
 RUN <<EOT
@@ -50,31 +52,25 @@ EOT
 RUN apk del --purge autoconf g++ make
 RUN ln -s "php.ini-${php_ini}" "$PHP_INI_DIR/php.ini"
 
-# Add a PHP www-user instead of nobody
-RUN <<EOT
-  addgroup -g ${PGID} www-user &&
-  adduser -D -H -u ${PUID} -G www-user www-user &&
-  sed -i "s|^user = .*|user = www-user|g" "/usr/local/etc/php-fpm.d/www.conf" &&
-  sed -i "s|^group = .*|group = www-user|g" "/usr/local/etc/php-fpm.d/www.conf"
-EOT
+COPY --chmod=755 ./entrypoint.d/*.sh /etc/entrypoint.d/
 
-WORKDIR /var/www
-ADD --chown=www-user:www-user https://github.com/getgrav/grav.git#${Grav_tag} ./grav-src
+WORKDIR $APP_BASE_DIR
+ADD --chown=www-data:www-data https://github.com/getgrav/grav.git#${Grav_tag} ./grav-src
 
-WORKDIR /var/www/grav-src
+WORKDIR $APP_BASE_DIR/grav-src
 
-USER www-user
+USER www-data
 RUN bin/grav install
 RUN composer install $composer_args
 
 USER root
-EXPOSE 80 443 2015
 
-COPY Caddyfile /etc/
-COPY extras /tmp/extras
+COPY Caddyfile /etc/frankenphp/caddyfile.d/localhost.caddyfile
+COPY --chown=www-data:www-data extras /tmp/extras
 COPY scripts /grav/
 
-RUN caddy -validate
+WORKDIR $CADDY_APP_PUBLIC_PATH
+RUN chown www-data:www-data $CADDY_APP_PUBLIC_PATH
 
-WORKDIR /var/www/grav
-ENTRYPOINT ["/bin/sh", "/grav/init.sh"]
+USER www-data
+RUN echo "<?php phpinfo();" > $CADDY_APP_PUBLIC_PATH/_info.php # FIXME: for dev builds only
