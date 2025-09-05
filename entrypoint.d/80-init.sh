@@ -44,5 +44,3 @@ fi
 ulimit -n $FILE_SIZE_LIMIT
 
 LogSuccess "Init steps completed"
-# LogAction "Starting caddy"
-# /usr/local/bin/caddy --conf /etc/Caddyfile --log stdout --agree=$ACME_AGREE # TODO: check $ACME_AGREE is being used

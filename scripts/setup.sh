@@ -77,17 +77,3 @@ GravSetPermissions() {
   umask 0002
   LogSuccess "Done setting permissions"
 }
-
-InitGravScheduler() {
-  # set and start cron
-  # Note: this may not be supported in future - see https://github.com/hughbris/cadaver/docs/ENVIRONMENT.md#grav_scheduler for an explanation and discussion of better ways
-  GRAV_SCHEDULER=${GRAV_SCHEDULER:-false}
-  if [[ $GRAV_SCHEDULER == "true" ]]; then
-    LogAction "Adding grav scheduler to caddy user's crontab"
-    touch /var/spool/cron/crontabs/www-data && chown www-data /var/spool/cron/crontabs/www-data
-    (crontab -l; echo "* * * * * cd /var/www/grav;bin/grav scheduler 1>> /dev/null 2>&1") | crontab -u www-data - && \
-      crond -l 0 -L /var/log/cron.log
-  else
-    LogInfo "Did not set up Grav scheduler"
-  fi
-}
