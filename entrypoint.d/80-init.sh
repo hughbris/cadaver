@@ -11,8 +11,8 @@ LogSplash
 LogInfo "Init script starting"
 
 # Setup Grav
-export GRAV_ROOT=/var/www/grav
-export GRAV_TEMP=/var/www/grav-src
+export GRAV_ROOT=${CADDY_APP_PUBLIC_PATH:-/var/www/grav}
+export GRAV_TEMP=${FRESHG:-/tmp/fresh}
 
 LogInfo "Setting up into $GRAV_ROOT from $GRAV_TEMP"
 

@@ -5,6 +5,7 @@ FROM $base_image
 
 ENV APP_BASE_DIR=/var/www
 ENV CADDY_APP_PUBLIC_PATH=/var/www/grav
+ENV FRESHG=/tmp/fresh
 
 ARG Grav_tag=master
 ARG composer_args='--no-dev -o'
@@ -55,11 +56,10 @@ RUN ln -s "php.ini-${php_ini}" "$PHP_INI_DIR/php.ini"
 COPY --chmod=755 ./entrypoint.d/*.sh /etc/entrypoint.d/
 
 WORKDIR $APP_BASE_DIR
-ADD --chown=www-data:www-data https://github.com/getgrav/grav.git#${Grav_tag} ./grav-src
-
-WORKDIR $APP_BASE_DIR/grav-src
+ADD --chown=www-data:www-data https://github.com/getgrav/grav.git#${Grav_tag} $FRESHG
 
 USER www-data
+WORKDIR $FRESHG
 RUN bin/grav install
 RUN composer install $composer_args
 
@@ -69,8 +69,9 @@ COPY Caddyfile /etc/frankenphp/caddyfile.d/localhost.caddyfile
 COPY --chown=www-data:www-data extras /tmp/extras
 COPY scripts /grav/
 
+RUN mkdir $CADDY_APP_PUBLIC_PATH && \
+    chown www-data:www-data $CADDY_APP_PUBLIC_PATH
 WORKDIR $CADDY_APP_PUBLIC_PATH
-RUN chown www-data:www-data $CADDY_APP_PUBLIC_PATH
 
 USER www-data
 RUN echo "<?php phpinfo();" > $CADDY_APP_PUBLIC_PATH/_info.php # FIXME: for dev builds only
