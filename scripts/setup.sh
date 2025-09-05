@@ -73,6 +73,7 @@ GravSetPermissions() {
   find . -type d $PERMISSIONS_GLOBAL $PERMISSIONS_DIRS -print0 | xargs -0 -n1 chmod 775
   find . -type d $PERMISSIONS_GLOBAL $PERMISSIONS_DIRS -print0 | xargs -0 -n1 chmod +s
   umask 0002
+  LogSuccess "Done setting permissions"
 }
 
 InitGravScheduler() {
