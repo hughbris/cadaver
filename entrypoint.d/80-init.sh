@@ -14,7 +14,7 @@ LogInfo "Init script starting"
 export GRAV_ROOT=/var/www/grav
 export GRAV_TEMP=/var/www/grav-src
 
-cd $GRAV_TEMP
+LogInfo "Setting up into $GRAV_ROOT from $GRAV_TEMP"
 
 GravSetupPersistent
 GravSetupEphemeral
@@ -32,7 +32,6 @@ GravSetupRobotsTxt
 
 # Clean up
 LogAction "Cleaning up working files"
-cd $GRAV_ROOT
 rm -Rf $GRAV_TEMP
 rm -Rf /tmp/extras
 
