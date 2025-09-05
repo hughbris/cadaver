@@ -9,7 +9,7 @@ GravSetupPersistent() {
     LogInfo "Using existing backup directory"
   else
     LogAction "Fresh install, moving backup"
-    mv $GRAV_TEMP/backup $GRAV_ROOT/ \
+    cp -faR $GRAV_TEMP/backup $GRAV_ROOT/ \
       && LogSuccess "Moved backup" \
       || LogError "Could not move backup"
   fi
@@ -18,7 +18,7 @@ GravSetupPersistent() {
     LogInfo "Using existing logs directory"
   else
     LogAction "Fresh install, moving logs"
-    mv $GRAV_TEMP/logs $GRAV_ROOT/ \
+    cp -faR $GRAV_TEMP/logs $GRAV_ROOT/ \
       && LogSuccess "Moved logs" \
       || LogError "Could not move logs"
   fi
@@ -27,8 +27,8 @@ GravSetupPersistent() {
     LogInfo "Using existing user directory"
   else
     LogAction "Fresh install, moving user directories"
-    mkdir $GRAV_ROOT/user
-    mv $GRAV_TEMP/user/* $GRAV_ROOT/user/ \
+    mkdir -p $GRAV_ROOT/user
+    cp -faR $GRAV_TEMP/user/* $GRAV_ROOT/user/ \
       && LogSuccess "Moved user directories" \
       || LogError "Could not move all user directories"
   fi
@@ -44,16 +44,18 @@ GravSetupEphemeral() {
 }
 
 GravSetupRobotsTxt() {
-  # Copy robots.txt file with disallow everything directive if set
+  # Install a different robots.txt file if set
+
+  cd $GRAV_TEMP
   ROBOTS_DISALLOW=${ROBOTS_DISALLOW:-"false"}
   if [[ $ROBOTS_DISALLOW == "AI_BOTS" ]]; then
     LogAction "Discouraging AI bots only with robots.txt"
     cat /tmp/extras/robots.ai-bots.txt $GRAV_ROOT/robots.txt > _robots.ai-bots.txt \
-      && mv -fv _robots.ai-bots.txt $GRAV_ROOT/robots.txt \
+      && cp -fav _robots.ai-bots.txt $GRAV_ROOT/robots.txt \
       || LogError "Could not create custom robots.txt"
   elif [[ $ROBOTS_DISALLOW == "true" ]]; then
     LogAction "Copying discouraging robots.txt"
-    cp -fv /tmp/extras/robots.disallow.txt $GRAV_ROOT/robots.txt \
+    cp -fav /tmp/extras/robots.disallow.txt $GRAV_ROOT/robots.txt \
       || LogError "Could not create restrictive robots.txt"
   else
     LogInfo "Using Grav's default robots.txt"
