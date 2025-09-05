@@ -4,6 +4,7 @@ source /grav/setup.sh
 
 export LOG_LEVEL=${LOG_LEVEL:-8}
 ULIMIT_DEFAULT=8192
+export FILE_SIZE_LIMIT=${FILE_SIZE_LIMIT:-$ULIMIT_DEFAULT}
 
 LogSplash
 
@@ -37,13 +38,10 @@ rm -Rf /tmp/extras
 
 GravSetPermissions
 
-InitGravScheduler
-
-if [[ -z "$FILE_SIZE_LIMIT" ]]; then
-    LogInfo "Using default file size limit (ulimit) of $ULIMIT_DEFAULT, tweak this with \$FILE_SIZE_LIMIT"
-    export FILE_SIZE_LIMIT=$ULIMIT_DEFAULT
-fi
 LogAction "Setting file size limit (ulimit) to $FILE_SIZE_LIMIT"
+if [[ $FILE_SIZE_LIMIT -eq $ULIMIT_DEFAULT ]]; then
+    LogInfo "This is the default file size limit, tweak it with \$FILE_SIZE_LIMIT"
+fi
 ulimit -n $FILE_SIZE_LIMIT
 
 LogSuccess "Init steps completed"
