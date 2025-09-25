@@ -23,8 +23,8 @@ LABEL org.opencontainers.image.ref.name=ghcr.io/hughbris/cadaver
 LABEL org.opencontainers.image.base.name="$base_image"
 
 # PHP www-user UID and GID
-ENV PUID="1000"
-ENV PGID="1000"
+ARG PUID="1000"
+ARG PGID="1000"
 
 # Let's Encrypt Agreement
 # FIXME: hmm, do I need this?
