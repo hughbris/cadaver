@@ -3,7 +3,6 @@ source /grav/helpers.sh
 source /grav/setup.sh
 
 export LOG_LEVEL=${LOG_LEVEL:-8}
-ULIMIT_DEFAULT=8192
 export FILE_SIZE_LIMIT=${FILE_SIZE_LIMIT:-$ULIMIT_DEFAULT}
 
 LogSplash
@@ -11,8 +10,8 @@ LogSplash
 LogInfo "Init script starting"
 
 # Setup Grav
-export GRAV_ROOT=${CADDY_APP_PUBLIC_PATH:-/var/www/grav}
-export GRAV_TEMP=${FRESHG:-/tmp/fresh}
+export GRAV_ROOT=$CADDY_APP_PUBLIC_PATH
+export GRAV_TEMP=$FRESHG
 
 LogInfo "Setting up into $GRAV_ROOT from $GRAV_TEMP"
 

@@ -3,17 +3,27 @@ ARG base_image=serversideup/php-dev:283-${php_ver}-frankenphp-alpine
 FROM $base_image
 # credit for important parts of this to https://gist.github.com/Baldinof/8af17f09c7a57aa468e1b6c66d4272a3
 
-ENV APP_BASE_DIR=/var/www
-ENV CADDY_APP_PUBLIC_PATH=/var/www/grav
-ENV FRESHG=/tmp/fresh
+ENV ULIMIT_DEFAULT=8192
+
+ARG APP_BASE_DIR=/var/www
+ARG CADDY_APP_PUBLIC_PATH=/var/www/grav
+ARG FRESHG=/tmp/fresh
 
 ARG Grav_tag=master
 ARG composer_args='--no-dev -o'
 ARG php_ini=production
 ARG extra_php_extensions
 
+# PHP www-data UID and GID
+ARG PUID="1000"
+ARG PGID="1000"
+
 # redeclare in new scope ..
 ARG base_image
+
+# ARGs we want to use at runtime
+ENV CADDY_APP_PUBLIC_PATH=$CADDY_APP_PUBLIC_PATH
+ENV FRESHG=$FRESHG
 
 LABEL org.opencontainers.image.source=https://github.com/hughbris/cadaver
 LABEL maintainer="Hugh Barnes"
@@ -25,10 +35,6 @@ LABEL org.opencontainers.image.title=Cadaver
 LABEL org.opencontainers.image.description="Run Grav CMS under Caddy webserver in a docker container."
 LABEL org.opencontainers.image.ref.name=ghcr.io/hughbris/cadaver
 LABEL org.opencontainers.image.base.name="$base_image"
-
-# PHP www-data UID and GID
-ARG PUID="1000"
-ARG PGID="1000"
 
 USER root
 
@@ -55,7 +61,7 @@ RUN ln -s "php.ini-${php_ini}" "$PHP_INI_DIR/php.ini"
 
 COPY --chmod=755 ./entrypoint.d/*.sh /etc/entrypoint.d/
 
-WORKDIR $APP_BASE_DIR
+WORKDIR $CADDY_APP_PUBLIC_PATH/..
 ADD --chown=www-data:www-data https://github.com/getgrav/grav.git#${Grav_tag} $FRESHG
 
 USER www-data
