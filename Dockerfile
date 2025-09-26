@@ -3,8 +3,6 @@ ARG base_image=serversideup/php-dev:283-${php_ver}-frankenphp-alpine
 FROM $base_image
 # credit for important parts of this to https://gist.github.com/Baldinof/8af17f09c7a57aa468e1b6c66d4272a3
 
-ENV ULIMIT_DEFAULT=8192
-
 ARG APP_BASE_DIR=/var/www
 ARG CADDY_APP_PUBLIC_PATH=/var/www/grav
 ARG FRESHG=/tmp/fresh
