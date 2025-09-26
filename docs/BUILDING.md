@@ -34,6 +34,8 @@ $ docker build --no-cache --pull -t local/my-organic-cadaver .
 | `composer_args`        | _--no-dev -o_ | [Composer arguments](#composer-arguments) |
 | `php_ini`              | _production_  | [php.ini preset profile](#phpini-preset-profile) |
 | `extra_php_extensions` | (empty)       | [additional PHP modules to install](#additional-php-modules) |
+| `PUID`                 | _1000_        | non-root [user account (www-user) id](#unprivileged-user-and-group-ids) (`uid`) |
+| `PGID`                 | _1000_        | non-root [user group (www-user) id](#unprivileged-user-and-group-ids) (`gid`) |
 
 ### PHP version
 
@@ -123,4 +125,25 @@ Example:
 
 ```sh
 $ docker build --build-arg extra_php_extensions="xdebug-stable xsl" -t local/my-bloody-cadaver:throwaway .
+```
+
+### Unprivileged user and group IDs
+
+Grav's files under its web root need to be owned by a non-root user and group.
+
+If you want to mount some of these directories on your host with working read-write permissions (so that you can edit them or whatever), it's easiest to give them the same permissions as your host user login and group. That saves a lot of futzing around.
+
+On many Linux systems, the primary non-root user account and group IDs (`uid` and `guid`) are the default of _1000_. In that case, you're sweet.
+
+If you want to test yours, simply enter `id` from a command prompt when you are logged in normally.
+
+```sh
+$ id
+uid=1000(hubris) gid=1000(hubris) …
+```
+
+Some systems like Debian use `uid` and `gid` of _83_. In that case, you would need to build the image with those IDs as build arguments:
+
+```sh
+$ docker build --build-arg PUID=83 PGID=83 -t local/my-usable-cadaver:noyolo .
 ```
