@@ -1,3 +1,15 @@
+# v0.2.10
+## 29-11-2025
+
+1. [](#bugfix)
+    * fix file permission issues moving buffered Grav source files ([#26](https://github.com/hughbris/cadaver/issues/26); a2de66a)
+    * `PUID` and `PGID` work as intended as ARGs not ENVs (a9e2ef8)
+
+2. [](#improved)
+    * simplify `$FILE_SIZE_LIMIT` code (f89abd3)
+    * log messages and cleanup (6ada9f9)
+    * default build PHP minor version is now 8.5 (dafa795)
+
 # v0.2.9
 ## 05-08-2025
 
