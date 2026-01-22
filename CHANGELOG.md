@@ -1,3 +1,11 @@
+# v0.2.11
+## 22-01-2025
+
+1. [](#bugfix)
+    * Add `alpine_ver` build argument (192e888)
+    * Update build docs for default `php_ver` bumped in dafa795 (192e888)
+    * Add kludge to workaround required Grav dependency HTTP build errors by pre-cloning (3ca5d65)
+
 # v0.2.10
 ## 29-11-2025
 
