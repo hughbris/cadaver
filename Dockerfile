@@ -63,6 +63,10 @@ WORKDIR /var/www
 ADD --chown=www-user:www-user https://github.com/getgrav/grav.git#${Grav_tag} ./grav-src
 
 WORKDIR /var/www/grav-src
+ADD --chown=www-user:www-user https://github.com/getgrav/grav-plugin-problems.git ./user/plugins/problems
+ADD --chown=www-user:www-user https://github.com/getgrav/grav-plugin-error.git ./user/plugins/error
+ADD --chown=www-user:www-user https://github.com/getgrav/grav-plugin-markdown-notices.git ./user/plugins/markdown-notices
+ADD --chown=www-user:www-user https://github.com/getgrav/grav-theme-quark.git ./user/themes/quark
 
 USER www-user
 RUN bin/grav install
