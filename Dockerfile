@@ -1,5 +1,6 @@
 ARG php_ver=8.5
-ARG base_image=php:${base_image:-${php_ver}-fpm-alpine}
+ARG alpine_ver=
+ARG base_image=php:${base_image:-${php_ver}-fpm-alpine${alpine_ver}}
 FROM $base_image
 # credit for important parts of this to https://gist.github.com/Baldinof/8af17f09c7a57aa468e1b6c66d4272a3
 

@@ -28,7 +28,8 @@ $ docker build --no-cache --pull -t local/my-organic-cadaver .
 
 | Option                 | Default       | Function |
 :----------------------- | :------------ | :---------
-| `php_ver`              | _8.4_         | [PHP version](#php-version) |
+| `php_ver`              | _8.5_         | [PHP version](#php-version) |
+| `alpine_ver`           | (empty)       | [Alpine version](#alpine-version) |
 | `base_image`           | _php:`php_ver`-fpm-alpine_ | [PHP base image](#php-base-image) |
 | `Grav_tag`             | _master_      | [Grav release or branch](#grav-release-or-branch) |
 | `composer_args`        | _--no-dev -o_ | [Composer arguments](#composer-arguments) |
@@ -45,7 +46,17 @@ This is a simple shorthand to change the PHP image. Setting this will assume you
 $ docker build --build-arg php_ver=7.4 -t local/my-old-cadaver:php7.4 .
 ```
 
-> This setting is ignored if you also pass the build argument `base_image`. Use that instead if you want to use a community image.
+> [!NOTE] This setting is ignored if you also pass the build argument `base_image`. Use that instead if you want to use a community image.
+
+### Alpine version
+
+This allows you to set the base Alpine docker image version. If you don't set this, the latest Alpine base image is used.
+
+```sh
+$ docker build --build-arg alpine_ver=3.22 -t local/my-maverick-cadaver:php8.5.1 .
+```
+
+> [!NOTE] This setting is ignored if you also pass the build argument `base_image`. Use that instead if you want to use a community image.
 
 ### PHP base image
 
@@ -55,9 +66,9 @@ You can change the *PHP base image* using the build-time argument `base_image`, 
 $ docker build --build-arg base_image=php:7.4-fpm-bullseye -t local/my-special-cadaver:php7.4 .
 ```
 
-> Setting `base_image` overrides any `php_ver` value you pass into your build.
+> [!IMPORTANT] Setting `base_image` overrides any `php_ver` or `alpine_ver` value you pass into your build.
 
-> The default `base_image` value is derived from the value of `php_ver`, which has a default value of _8.4_. The default _8.4_ will effectively set `base_image` to _php:8.4-fpm-alpine_.
+> [!NOTE] The default `base_image` value is derived from the value of `php_ver`, which has a default value of _8.5_, and `alpine_ver` which is blank (providing the latest version). The default _8.5_ will effectively set `base_image` to _php:8.5-fpm-alpine_.
 
 ### Grav release or branch
 
