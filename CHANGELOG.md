@@ -1,10 +1,16 @@
+# v0.2.12
+## 24-06-2026
+
+1. [](#bugfix)
+    * [#SECURITY](https://learn.getgrav.org/17/security/user-folder-exposure): Add rules to Caddyfile to prevent some direct file access (01939b0)
+
 # v0.2.11
-## 22-01-2025
+## 22-01-2026
 
 1. [](#bugfix)
     * Add `alpine_ver` build argument (192e888)
     * Update build docs for default `php_ver` bumped in dafa795 (192e888)
-    * Add kludge to workaround required Grav dependency HTTP build errors by pre-cloning (3ca5d65)
+    * Add kludge to work around required Grav dependency HTTP build errors by pre-cloning (3ca5d65)
 
 # v0.2.10
 ## 29-11-2025
