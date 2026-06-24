@@ -19,6 +19,11 @@ rewrite {
     r       /(system|vendor)/.*\.(txt|xml|md|html|yaml|yml|php|pl|py|cgi|twig|sh|bat)$
     to      /403
 }
+# adapted for Caddy1 from https://learn.getgrav.org/17/security/user-folder-exposure#caddy
+rewrite {
+    r       /user/(accounts|config|data|env)/.*
+    to      /403
+}
 # deny running scripts inside user folder
 rewrite {
     r       /user/.*\.(txt|md|yaml|yml|php|pl|py|cgi|twig|sh|bat)$
