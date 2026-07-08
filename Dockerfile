@@ -35,7 +35,7 @@ RUN apk update && \
     apk add --no-cache tzdata
 RUN apk add --no-cache autoconf openssl-dev g++ make pcre-dev icu-dev git
 
-COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+ADD  --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
 COPY --from=wizbii/caddy /caddy /usr/local/bin/caddy
 
