@@ -1,3 +1,9 @@
+# v0.2.13
+## 09-07-2026
+
+1. [](#bugfix)
+    * Fix build errors caused by copying from an out of date php installer image; refer https://github.com/hughbris/cadaver/discussions/34 (bcf5e56)
+
 # v0.2.12
 ## 24-06-2026
 
