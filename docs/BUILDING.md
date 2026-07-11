@@ -35,6 +35,7 @@ $ docker build --no-cache --pull -t local/my-organic-cadaver .
 | `composer_args`        | _--no-dev -o_ | [Composer arguments](#composer-arguments) |
 | `php_ini`              | _production_  | [php.ini preset profile](#phpini-preset-profile) |
 | `extra_php_extensions` | (empty)       | [additional PHP modules to install](#additional-php-modules) |
+| `network_clone_hack`   | _42_  ("on")  | [apply a git clone network workaround](#toggle-git-clone-network-build-error-kludge) |
 | `PUID`                 | _1000_        | non-root [user account (www-user) id](#unprivileged-user-and-group-ids) (`uid`) |
 | `PGID`                 | _1000_        | non-root [user group (www-user) id](#unprivileged-user-and-group-ids) (`gid`) |
 
@@ -136,6 +137,32 @@ Example:
 
 ```sh
 $ docker build --build-arg extra_php_extensions="xdebug-stable xsl" -t local/my-bloody-cadaver:throwaway .
+```
+
+### Toggle `git clone` network build error kludge
+
+Disable `network_clone_hack` by setting it to zero (_0_).
+
+> [!NOTE]
+> This option was added to work around an annoying, elusive bug. It will be unnecessary if/when a proper fix is implemented or the problem goes away. No action will be required when that happens, just rainbows and happiness for all.
+
+The hack is necessary for now and is on by default. It works around an error cloning the _first of Grav's dependencies_ in its install script within the build environment. After the first unsuccessful `git clone` attempt, the remaining dependencies pull just fine (go figure). This is the case both running Grav's install script (PHP) and in this workaround (shell script).
+
+When enabled, the hack works as follows:
+
+* reads the dependencies file and clones them _before_ Grav's install script, so that Grav's installer will skip over its clone operations;
+* adds a second attempt to clone each dependency if the first clone fails, which will almost certainly be the _first dependency only_ and _should succeed the second time_.
+
+The bug and its workaround are explained in more detail in [its issue](https://github.com/hughbris/cadaver/issues/36).
+
+> [!IMPORTANT]
+> The bug adds significantly to build time because the initial failing `git clone` operation needs to time out.
+> An [earlier kludge](https://github.com/hughbris/cadaver/commit/3ca5d65a42c168fa8fccb6d4d34a475854685435) used a hardcoded set of `Dockerfile` `ADD` commands to perform the cloning. It was faster and error free (again, 🤷) but would not adapt to changes in Grav's core dependencies file, which happen occasionally, including for Grav 2.x. You could restore that hack in your own fork if you want to reclaim some doomscrolling time.
+
+Example:
+
+```sh
+$ docker build --build-arg network_clone_hack=0 -t local/my-funky-cadaver:yeetsweet .
 ```
 
 ### Unprivileged user and group IDs

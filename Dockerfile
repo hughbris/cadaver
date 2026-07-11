@@ -8,6 +8,7 @@ ARG Grav_tag=master
 ARG composer_args='--no-dev -o'
 ARG php_ini=production
 ARG extra_php_extensions
+ARG network_clone_hack=42
 
 # redeclare in new scope ..
 ARG base_image
@@ -32,8 +33,10 @@ ARG PGID="1000"
 ENV ACME_AGREE="false"
 
 RUN apk update && \
-    apk add --no-cache tzdata
-RUN apk add --no-cache autoconf openssl-dev g++ make pcre-dev icu-dev git
+    apk add --no-cache tzdata autoconf openssl-dev g++ make pcre-dev icu-dev git && \
+    if [[ $network_clone_hack -ne 0 ]]; then \
+      apk add yq; \
+    fi
 
 ADD  --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
@@ -63,16 +66,34 @@ WORKDIR /var/www
 ADD --chown=www-user:www-user https://github.com/getgrav/grav.git#${Grav_tag} ./grav-src
 
 WORKDIR /var/www/grav-src
-ADD --chown=www-user:www-user https://github.com/getgrav/grav-plugin-problems.git ./user/plugins/problems
-ADD --chown=www-user:www-user https://github.com/getgrav/grav-plugin-error.git ./user/plugins/error
-ADD --chown=www-user:www-user https://github.com/getgrav/grav-plugin-markdown-notices.git ./user/plugins/markdown-notices
-ADD --chown=www-user:www-user https://github.com/getgrav/grav-theme-quark.git ./user/themes/quark
-
 USER www-user
+
+RUN <<EOT
+  if [[ $network_clone_hack -ne 0 ]]; then
+    for i in $(yq '.git.[] | path | .[-1]' < .dependencies); do
+      url=$(yq ".git.$i | .url" .dependencies).git
+      path=$(yq ".git.$i | .path" .dependencies)
+      branch=$(yq ".git.$i | .branch" .dependencies)
+      clone_cmd="git clone -b ${branch} -v --depth 1 -- ${url} ./${path}"
+
+      $clone_cmd
+      if [[ $? -ne 0 ]]; then
+        # github's just shy, try again bro ..
+        $clone_cmd
+      fi
+    done
+  fi
+EOT
+
 RUN bin/grav install
 RUN composer install $composer_args
 
 USER root
+
+RUN if [[ $network_clone_hack -ne 0 ]]; then \
+      apk del --purge yq; \
+    fi
+
 EXPOSE 80 443 2015
 
 COPY Caddyfile /etc/
