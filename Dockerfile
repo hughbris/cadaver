@@ -85,8 +85,8 @@ RUN <<EOT
   fi
 EOT
 
-RUN bin/grav install
 RUN composer install $composer_args
+RUN bin/grav install
 
 USER root
 
