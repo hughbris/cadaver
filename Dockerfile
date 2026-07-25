@@ -40,7 +40,7 @@ RUN apk update && \
 
 ADD  --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 COPY --from=ghcr.io/composer/docker:latest-bin /composer /usr/bin/composer
-COPY --from=wizbii/caddy /caddy /usr/local/bin/caddy
+COPY --from=caddy /usr/bin/caddy /usr/local/bin/caddy
 
 RUN install-php-extensions gd bcmath intl opcache zip sockets exif
 
@@ -100,7 +100,12 @@ COPY Caddyfile /etc/
 COPY extras /tmp/extras
 COPY scripts /grav/
 
-RUN caddy -validate
+RUN caddy validate --config /etc/Caddyfile
+
+# TODO: invoke USER here?? (https://docs.docker.com/reference/dockerfile/#user)
+# RUN exec php-fpm -D
+
+# TODO: add a HEALTHCHECK?? (https://docs.docker.com/reference/dockerfile/#healthcheck)
 
 WORKDIR /var/www/grav
 ENTRYPOINT ["/bin/sh", "/grav/init.sh"]
