@@ -39,7 +39,7 @@ RUN apk update && \
     fi
 
 ADD  --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
+COPY --from=ghcr.io/composer/docker:latest-bin /composer /usr/bin/composer
 COPY --from=wizbii/caddy /caddy /usr/local/bin/caddy
 
 RUN install-php-extensions gd bcmath intl opcache zip sockets exif
