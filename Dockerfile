@@ -16,7 +16,7 @@ ARG base_image
 LABEL org.opencontainers.image.source=https://github.com/hughbris/cadaver
 LABEL maintainer="Hugh Barnes"
 LABEL org.opencontainers.image.documentation=https://github.com/hughbris/cadaver/blob/main/README.md
-LABEL org.opencontainers.image.url=https://github.com/hughbris/cadaver
+LABEL org.opencontainers.image.url=https://github.com/hughbris/cadaver/pkgs/container/cadaver
 LABEL org.opencontainers.image.authors="Hugh Barnes"
 LABEL org.opencontainers.image.licenses=MIT
 LABEL org.opencontainers.image.title=Cadaver
