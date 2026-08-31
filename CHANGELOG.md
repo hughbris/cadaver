@@ -1,3 +1,12 @@
+# v0.2.14
+## 31-08-2026
+
+1. [](#improved)
+    * Add kludge for network build errors ([#36](https://github.com/hughbris/cadaver/issues/36) and add/document new `network_clone_hack` build argument used to toggle it (7abd150)
+    * pull composer binary from GHCR instead of dockerhub (d1e29a7)
+    * update `robots.ai-bots.txt` (190e2d7; 106c032)
+    * minor `Dockerfile` tweaks (8981643; 08e4014)
+
 # v0.2.13
 ## 09-07-2026
 
