@@ -1,5 +1,5 @@
 # v0.2.14
-## 31-08-2026
+## 2026-08-31
 
 1. [](#improved)
     * Add kludge for network build errors ([#36](https://github.com/hughbris/cadaver/issues/36) and add/document new `network_clone_hack` build argument used to toggle it (7abd150)
@@ -8,19 +8,19 @@
     * minor `Dockerfile` tweaks (8981643; 08e4014)
 
 # v0.2.13
-## 09-07-2026
+## 2026-07-09
 
 1. [](#bugfix)
     * Fix build errors caused by copying from an out of date php installer image; refer https://github.com/hughbris/cadaver/discussions/34 (bcf5e56)
 
 # v0.2.12
-## 24-06-2026
+## 2026-06-24
 
 1. [](#bugfix)
     * [#SECURITY](https://learn.getgrav.org/17/security/user-folder-exposure): Add rules to Caddyfile to prevent some direct file access (01939b0)
 
 # v0.2.11
-## 22-01-2026
+## 2026-01-22
 
 1. [](#bugfix)
     * Add `alpine_ver` build argument (192e888)
@@ -28,7 +28,7 @@
     * Add kludge to work around required Grav dependency HTTP build errors by pre-cloning (3ca5d65)
 
 # v0.2.10
-## 29-11-2025
+## 2025-11-29
 
 1. [](#bugfix)
     * fix file permission issues moving buffered Grav source files ([#26](https://github.com/hughbris/cadaver/issues/26); a2de66a)
@@ -40,7 +40,7 @@
     * default build PHP minor version is now 8.5 (dafa795)
 
 # v0.2.9
-## 05-08-2025
+## 2025-08-05
 
 1. [](#bugfix)
     * run `grav install` as www-user (160ce71)
@@ -49,14 +49,14 @@
     * update `robots.ai-bots.txt` (1f8bbce, 341dee0)
 
 # v0.2.8
-## 07-06-2025
+## 2025-06-07
 
 1. [](#bugfix)
     * correct file ownership in `user` for clean installs (04ce321)
     * tweak file permissions for developer tools (e9c5c80)
 
 # v0.2.7
-## 02-01-2025
+## 2025-01-02
 
 1. [](#new)
     * `FILE_SIZE_LIMIT` (ulimit) runtime environment var defaulting to 8192 for production servers (4509f81)
@@ -73,7 +73,7 @@
     * compose was not installing correctly when executed before grav/install, switched command order in Dockerfile (309b8fe)
 
 # v0.2.6
-## 09-12-2024
+## 2024-12-09
 
 1. [](#new)
     * add init script log levels variable and new debug log entries (9564980)
@@ -90,7 +90,7 @@
     * detecting `logs` and `backup` directories for existing installs no longer throws an error (~ce5490e nope~ → d859101)
 
 # v0.2.5.1
-## 21-11-2024
+## 2024-11-21
 
 1. [](#new)
     * add shorthand build argument `php_ver` (a2ad3c5)
@@ -103,7 +103,7 @@
     * admit mistake incorporating development commits accidentally released into 0.2.5
 
 # v0.2.5
-## 21-11-2024
+## 2024-11-21
 
 1. [](#new)
     * add support for Google AI bot disallowing robots directive (bfe5f55)
@@ -119,13 +119,13 @@
     * clone Grav repo rather than pulling and unzipping (47f2548 / e3e2d1d)
 
 # v0.2.4.1
-## 03-09-2023
+## 2023-09-03
 
 1. [](#improved)
     * default `$base_image` value is `php:8.2-fpm-alpine` to align with [changes to default published images](https://github.com/hughbris/cadaver/discussions/8)
 
 # v0.2.4
-## 28-08-2023
+## 2023-08-28
 
 1. [](#new)
     * add and document `$base_image` build parameter, makes managing multiple base images and swapping in custom ones much simpler (4833540)
@@ -139,22 +139,22 @@
     * ~runtime~ build environment variables PUID and GUID should now work as expected (fb4a235) _\[edited description]_
 
 # v0.2.3
-## 26-02-2023
+## 2023-02-26
 
 1. [](#bugfix)
     * leave .git directory alone when setting Grav file permissions
 
 # v0.2.2
-## 05-08-2022
+## 2022-08-05
 
 # v0.2.1
-## 06-05-2022
+## 2022-05-06
 
 1. [](#improved)
     * add exif library PHP extension, needed for some Grav image manipulation functions
 
 # v0.2.0
-## 02-04-2022
+## 2022-04-02
 
 1. [](#new)
     * Initial image release on Github Container Registry (ghcr.io)
