@@ -1,3 +1,14 @@
+# v0.2.15
+## 2026-09-24
+
+1. [](#bugfix)
+    * Integrate adapted upstream security updates to Caddyfile from @grav/4b41016 (decefc1; 3e91872)
+    * fix changelog date formats! (61d694b)
+
+1. [](#improved)
+    * Use long composer default argument for readability (f419e70)
+    * Update `robots.ai-bots.txt` (06f1ebb)
+
 # v0.2.14
 ## 2026-08-31
 
