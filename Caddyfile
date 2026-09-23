@@ -11,8 +11,13 @@ root /var/www/grav
 # Begin - Security
 # deny all direct access for these folders
 rewrite {
-    r       /(\.git|cache|bin|logs|backups|tests)/.*$
+    r       /(\.git|cache|bin|logs|backups|tmp|tests)/.*$
     to      /403
+}
+# deny running scripts in the public cache folders (image derivatives and combined assets)
+rewrite {
+    r       /(images|assets)/.*\.(php|php2|php3|php4|php5|php7|php8|phar|phtml|pht|phtm|phps|pl|py|cgi|sh|bat)$
+    status  403
 }
 # deny running scripts inside core system folders
 rewrite {
