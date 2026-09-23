@@ -5,7 +5,7 @@ FROM $base_image
 # credit for important parts of this to https://gist.github.com/Baldinof/8af17f09c7a57aa468e1b6c66d4272a3
 
 ARG Grav_tag=master
-ARG composer_args='--no-dev -o'
+ARG composer_args='--no-dev --optimize-autoloader'
 ARG php_ini=production
 ARG extra_php_extensions
 ARG network_clone_hack=42
