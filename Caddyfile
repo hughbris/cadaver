@@ -17,7 +17,7 @@ rewrite {
 # deny running scripts in the public cache folders (image derivatives and combined assets)
 rewrite {
     r       /(images|assets)/.*\.(php|php2|php3|php4|php5|php7|php8|phar|phtml|pht|phtm|phps|pl|py|cgi|sh|bat)$
-    status  403
+    to  /403
 }
 # deny running scripts inside core system folders
 rewrite {
