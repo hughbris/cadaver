@@ -85,15 +85,15 @@ The default is _master_, which is the branch of the latest official Grav release
 
 A major stage of Grav's installation runs PHP composer. You can pass custom composer flags (arguments) using the `composer_args` docker build parameter.
 
-By default `composer_args` is _--no-dev -o_, which is suited for productions systems. Therefore the default composer command run by the build script is:
+By default `composer_args` is _--no-dev --optimize-autoloader_, which is suited for productions systems. Therefore the default composer command run by the build script is:
 
 ```sh
-composer install --no-dev -o
+composer install --no-dev --optimize-autoloader
 ```
 
-(_-o_ is shorthand for _--optimize-autoloader_)
+(_--optimize-autoloader_ has the shorthand form _-o_)
 
-If you just want the _require-dev_ packages (which the default _--no-dev_ flag disables) because you are making an image for a development server, and don't need _-o_, you'll either need to set the `composer_args` flag blank:
+If you just want the _require-dev_ packages (which the default _--no-dev_ flag disables) because you are making an image for a development server, and don't need _--optimize-autoloader_, you'll either need to set the `composer_args` flag blank:
 
 ```sh
 $ docker build --build-arg composer_args= -t local/my-custom-cadaver:dev .
