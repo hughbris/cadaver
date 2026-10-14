@@ -7,7 +7,7 @@ FROM $base_image
 ARG Grav_tag=master
 ARG composer_args='--no-dev --optimize-autoloader'
 ARG php_ini=production
-ARG extra_php_extensions
+ARG extra_php_extensions=yaml
 ARG network_clone_hack=42
 
 # redeclare in new scope ..

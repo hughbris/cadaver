@@ -34,7 +34,7 @@ $ docker build --no-cache --pull -t local/my-organic-cadaver .
 | `Grav_tag`             | _master_      | [Grav release or branch](#grav-release-or-branch) |
 | `composer_args`        | _--no-dev -o_ | [Composer arguments](#composer-arguments) |
 | `php_ini`              | _production_  | [php.ini preset profile](#phpini-preset-profile) |
-| `extra_php_extensions` | (empty)       | [additional PHP modules to install](#additional-php-modules) |
+| `extra_php_extensions` | _yaml_        | [additional PHP modules to install](#additional-php-modules) |
 | `network_clone_hack`   | _42_  ("on")  | [apply a git clone network workaround](#toggle-git-clone-network-build-error-kludge) |
 | `PUID`                 | _1000_        | non-root [user account (www-user) id](#unprivileged-user-and-group-ids) (`uid`) |
 | `PGID`                 | _1000_        | non-root [user group (www-user) id](#unprivileged-user-and-group-ids) (`gid`) |
@@ -123,7 +123,9 @@ $ docker build --build-arg php_ini=development -t local/my-playground-cadaver:de
 
 Using `extra_php_extensions`, you can provide a space-separated list of PHP modules you want to install in your containers.
 
-> Grav's recommended and required modules will already be installed, so you only need to list any extra modules you want.
+> [!NOTE] Grav's recommended and required PHP modules will already be installed. So **with this option** you only need to list any _extra modules_ you want.
+
+> [!IMPORTANT] Since [Grav 2.2](https://getgrav.org/blog/grav-2-2-released), the YAML extension is recommended for better performance in combination with the new `system.pages.frontmatter.native_yaml` setting. This is now the only _default_ extra PHP extension. This means that you should include `yaml` if you set this option, or omit it if you want to explicitly exclude it.
 
 To find out which extensions are available and how to specify them:
 
@@ -136,7 +138,7 @@ To find out which extensions are available and how to specify them:
 Example:
 
 ```sh
-$ docker build --build-arg extra_php_extensions="xdebug-stable xsl" -t local/my-bloody-cadaver:throwaway .
+$ docker build --build-arg extra_php_extensions="yaml xsl" -t local/my-bloody-cadaver:throwaway .
 ```
 
 ### Toggle `git clone` network build error kludge
