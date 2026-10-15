@@ -121,11 +121,9 @@ $ docker build --build-arg php_ini=development -t local/my-playground-cadaver:de
 
 ### Additional PHP modules
 
-Using `extra_php_extensions`, you can provide a space-separated list of PHP modules you want to install in your containers.
+Using `extra_php_extensions`, you can provide a _space-separated_ list of PHP modules you want to install in your containers.
 
 > [!NOTE] Grav's recommended and required PHP modules will already be installed. So **with this option** you only need to list any _extra modules_ you want.
-
-> [!IMPORTANT] Since [Grav 2.2](https://getgrav.org/blog/grav-2-2-released), the YAML extension is recommended for better performance in combination with the new `system.pages.frontmatter.native_yaml` setting. This is now the only _default_ extra PHP extension. This means that you should include `yaml` if you set this option, or omit it if you want to explicitly exclude it.
 
 To find out which extensions are available and how to specify them:
 
@@ -135,10 +133,18 @@ To find out which extensions are available and how to specify them:
 * [grabbing from source code](https://github.com/mlocati/docker-php-extension-installer#installing-an-extension-from-its-source-code)
 * [search for extensions](https://mlocati.github.io/pecl-info/)
 
-Example:
+> [!IMPORTANT] Since [Grav 2.2](https://getgrav.org/blog/grav-2-2-released#:~:text=New%20Settings&text=pages.frontmatter.native_yaml), Grav recommends the YAML PHP extension for better performance in combination with the new (opt-in) `system.pages.frontmatter.native_yaml` setting. This is now Cadaver's first and only _default extra_ PHP extension. This means that you should include `yaml` if you use this option to add more PHP extensions, or omit it if you want to explicitly exclude it.
+
+Example adding an extension:
 
 ```sh
 $ docker build --build-arg extra_php_extensions="yaml xsl" -t local/my-bloody-cadaver:throwaway .
+```
+
+Example using only required extensions (no YAML extension):
+
+```sh
+$ docker build --build-arg extra_php_extensions= -t local/my-trad-cadaver:yesteryear .
 ```
 
 ### Toggle `git clone` network build error kludge
