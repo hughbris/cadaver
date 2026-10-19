@@ -34,7 +34,7 @@ $ docker build --no-cache --pull -t local/my-organic-cadaver .
 | `Grav_tag`             | _master_      | [Grav release or branch](#grav-release-or-branch) |
 | `composer_args`        | _--no-dev -o_ | [Composer arguments](#composer-arguments) |
 | `php_ini`              | _production_  | [php.ini preset profile](#phpini-preset-profile) |
-| `extra_php_extensions` | (empty)       | [additional PHP modules to install](#additional-php-modules) |
+| `extra_php_extensions` | _yaml_        | [additional PHP modules to install](#additional-php-modules) |
 | `network_clone_hack`   | _42_  ("on")  | [apply a git clone network workaround](#toggle-git-clone-network-build-error-kludge) |
 | `PUID`                 | _1000_        | non-root [user account (www-user) id](#unprivileged-user-and-group-ids) (`uid`) |
 | `PGID`                 | _1000_        | non-root [user group (www-user) id](#unprivileged-user-and-group-ids) (`gid`) |
@@ -85,15 +85,15 @@ The default is _master_, which is the branch of the latest official Grav release
 
 A major stage of Grav's installation runs PHP composer. You can pass custom composer flags (arguments) using the `composer_args` docker build parameter.
 
-By default `composer_args` is _--no-dev -o_, which is suited for productions systems. Therefore the default composer command run by the build script is:
+By default `composer_args` is _--no-dev --optimize-autoloader_, which is suited for productions systems. Therefore the default composer command run by the build script is:
 
 ```sh
-composer install --no-dev -o
+composer install --no-dev --optimize-autoloader
 ```
 
-(_-o_ is shorthand for _--optimize-autoloader_)
+(_--optimize-autoloader_ has the shorthand form _-o_)
 
-If you just want the _require-dev_ packages (which the default _--no-dev_ flag disables) because you are making an image for a development server, and don't need _-o_, you'll either need to set the `composer_args` flag blank:
+If you just want the _require-dev_ packages (which the default _--no-dev_ flag disables) because you are making an image for a development server, and don't need _--optimize-autoloader_, you'll either need to set the `composer_args` flag blank:
 
 ```sh
 $ docker build --build-arg composer_args= -t local/my-custom-cadaver:dev .
@@ -121,9 +121,9 @@ $ docker build --build-arg php_ini=development -t local/my-playground-cadaver:de
 
 ### Additional PHP modules
 
-Using `extra_php_extensions`, you can provide a space-separated list of PHP modules you want to install in your containers.
+Using `extra_php_extensions`, you can provide a _space-separated_ list of PHP modules you want to install in your containers.
 
-> Grav's recommended and required modules will already be installed, so you only need to list any extra modules you want.
+> [!NOTE] Grav's recommended and required PHP modules will already be installed. So **with this option** you only need to list any _extra modules_ you want.
 
 To find out which extensions are available and how to specify them:
 
@@ -133,10 +133,18 @@ To find out which extensions are available and how to specify them:
 * [grabbing from source code](https://github.com/mlocati/docker-php-extension-installer#installing-an-extension-from-its-source-code)
 * [search for extensions](https://mlocati.github.io/pecl-info/)
 
-Example:
+> [!IMPORTANT] Since [Grav 2.2](https://getgrav.org/blog/grav-2-2-released#:~:text=New%20Settings&text=pages.frontmatter.native_yaml), Grav recommends the YAML PHP extension for better performance in combination with the new (opt-in) `system.pages.frontmatter.native_yaml` setting. This is now Cadaver's first and only _default extra_ PHP extension. This means that you should include `yaml` if you use this option to add more PHP extensions, or omit it if you want to explicitly exclude it.
+
+Example adding an extension:
 
 ```sh
-$ docker build --build-arg extra_php_extensions="xdebug-stable xsl" -t local/my-bloody-cadaver:throwaway .
+$ docker build --build-arg extra_php_extensions="yaml xsl" -t local/my-bloody-cadaver:throwaway .
+```
+
+Example using only required extensions (no YAML extension):
+
+```sh
+$ docker build --build-arg extra_php_extensions= -t local/my-trad-cadaver:yesteryear .
 ```
 
 ### Toggle `git clone` network build error kludge
