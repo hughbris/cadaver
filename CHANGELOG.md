@@ -1,3 +1,9 @@
+# v0.2.16
+## 2026-11-01
+
+1. [](#bugfix)
+    * [#SECURITY](https://getgrav.org/blog/oss-scanner-security-releases) Adapt Caddyfile for fixes in [[Grav1.7.53.8](https://github.com/getgrav/grav/commit/2fca9a3ffcd82d177436e55e5d1197e761b3c22c) and [Grav2.2.18](https://github.com/getgrav/grav/commit/9609f793726f42eeb8ce820e37f06984299c70b3)/[Grav2.2.19](https://github.com/getgrav/grav/commit/2c54423d439c1f9373483e8a78f4110ebe5a1a08), found in Anthropic security audit, oh happy days! (55aee07; c3e199b)
+
 # v0.2.15
 ## 2026-09-24
 
