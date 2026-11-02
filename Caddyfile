@@ -69,11 +69,8 @@ root * /var/www/grav
 
 # deny hidden files and directories at any depth, except ACME challenges:
 # .htaccess, .env, .env.local, .migrating, and nested .git repositories.
-# Caddy matchers use RE2, which has no lookahead, so .well-known is excluded
-# with a separate `not` rather than inline in the expression.
 @denied_dotfiles {
 	path_regexp (?i)(^|/)\.
-	not path /.well-known/*
 }
 ## End - Security
 
