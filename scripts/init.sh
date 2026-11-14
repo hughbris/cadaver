@@ -1,4 +1,8 @@
 #!/bin/sh
+# Setup Grav
+export GRAV_ROOT=/var/www/grav
+export GRAV_TEMP=/var/www/grav-src
+
 source /grav/helpers.sh
 source /grav/setup.sh
 
@@ -9,10 +13,6 @@ export FILE_SIZE_LIMIT=${FILE_SIZE_LIMIT:-$ULIMIT_DEFAULT}
 LogSplash
 
 LogInfo "Init script starting"
-
-# Setup Grav
-export GRAV_ROOT=/var/www/grav
-export GRAV_TEMP=/var/www/grav-src
 
 LogInfo "Setting up into $GRAV_ROOT from $GRAV_TEMP"
 
