@@ -1,3 +1,9 @@
+# v0.2.17
+## 2026-11-17
+
+1. [](#bugfix)
+    * fix setting important setup directory locations, preventing all kinds of first run errors (61a8a01)
+
 # v0.2.16
 ## 2026-11-01
 
